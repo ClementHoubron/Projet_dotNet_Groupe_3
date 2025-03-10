@@ -10,6 +10,8 @@ public class MyDbContext : DbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<ClientParticulier> ClientsParticuliers { get; set; }
     public DbSet<ClientProfessionnel> ClientsProfessionnels { get; set; }
+    public DbSet<AdresseParticulier> AdressesParticulier { get; set; }
+    public DbSet<AdresseProfessionel> AdressesProfessionnels { get; set; }
     public DbSet<CompteBancaire> ComptesBancaires { get; set; }
     public DbSet<TransactionBancaire> TransactionsBancaires { get; set; }
 
@@ -22,7 +24,7 @@ public class MyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Client>().UseTpcMappingStrategy();
+        //modelBuilder.Entity<Client>().UseTpcMappingStrategy();
     }
 
 }

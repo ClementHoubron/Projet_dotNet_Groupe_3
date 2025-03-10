@@ -22,7 +22,7 @@ namespace Projet.Data.Entities
         [RegularExpression("[1-9]{14}", ErrorMessage = "Siret needs to be 14 numbers.")]
         public string Siret { get; set; }
         public StatutJuridique StatutJuridique { get; set; }
-        public Adresse AdresseSiege { get; set; }
+        public AdresseProfessionel AdresseSiege { get; set; }
     }
     
 

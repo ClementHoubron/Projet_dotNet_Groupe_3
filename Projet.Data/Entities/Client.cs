@@ -15,7 +15,8 @@ namespace Projet.Data.Entities
 
         [StringLength(50, MinimumLength = 1)]
         public string Nom { get; set; }
-     
+
+        public int AdressePostaleId { get; set; }
         public AdresseParticulier AdressePostale { get; set; }
 
         [RegularExpression(".*@.*", ErrorMessage = "Email needs to contain an @.")]

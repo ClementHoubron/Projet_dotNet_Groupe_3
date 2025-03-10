@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Projet.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class initclient : Migration
+    public partial class ajoutadresse : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -122,6 +122,11 @@ namespace Projet.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AdressesParticulier",
+                columns: new[] { "Id", "CodePostal", "Complement", "Libelle", "Ville" },
+                values: new object[] { 1, "94000", "", "12, rue des Oliviers", "CRETEIL" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clients_AdressePostaleId",

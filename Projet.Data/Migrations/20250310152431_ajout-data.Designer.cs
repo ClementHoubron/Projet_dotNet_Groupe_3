@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Projet.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250310152431_ajout-data")]
+    partial class ajoutdata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,7 +344,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             AdressePostaleId = 2,
                             Email = "bodin@gmail.com",
                             Nom = "BODIN",
@@ -351,7 +354,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 3,
                             AdressePostaleId = 3,
                             Email = "berris@gmail.com",
                             Nom = "BERRIS",
@@ -361,7 +364,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 4,
                             AdressePostaleId = 4,
                             Email = "abenir@gmail.com",
                             Nom = "ABENIR",
@@ -371,7 +374,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 5,
                             AdressePostaleId = 5,
                             Email = "bensaid@gmail.com",
                             Nom = "BENSAID",
@@ -381,7 +384,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 6,
                             AdressePostaleId = 6,
                             Email = "ababou@gmail.com",
                             Nom = "ABABOU",
@@ -412,7 +415,7 @@ namespace Projet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = 7,
                             AdressePostaleId = 7,
                             Email = "info@axa.com",
                             Nom = "AXA",
@@ -422,7 +425,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 8,
                             AdressePostaleId = 8,
                             Email = "info@paul.com",
                             Nom = "PAUL",
@@ -432,7 +435,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 9,
                             AdressePostaleId = 9,
                             Email = "info@primark.com",
                             Nom = "PRIMARK",
@@ -442,7 +445,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 10,
                             AdressePostaleId = 10,
                             Email = "info@zara.com",
                             Nom = "ZARA",
@@ -452,7 +455,7 @@ namespace Projet.Data.Migrations
                         },
                         new
                         {
-                            Id = 10,
+                            Id = 11,
                             AdressePostaleId = 11,
                             Email = "info@leonidas.com",
                             Nom = "LEONIDAS",

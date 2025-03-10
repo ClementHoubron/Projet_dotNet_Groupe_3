@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Projet.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20250310143126_init-client")]
-    partial class initclient
+    [Migration("20250310150729_ajout-client")]
+    partial class ajoutclient
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,56 @@ namespace Projet.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AdressesParticulier");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CodePostal = "94000",
+                            Complement = "",
+                            Libelle = "12, rue des Oliviers",
+                            Ville = "CRETEIL"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CodePostal = "94300",
+                            Complement = "Etage 2",
+                            Libelle = "10, rue des Olivies",
+                            Ville = "VINCENNES"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CodePostal = "94120",
+                            Complement = "",
+                            Libelle = "15, rue de la République",
+                            Ville = "FONTENAY SOUS BOIS"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CodePostal = "92100",
+                            Complement = "",
+                            Libelle = "25, rue de la Paix",
+                            Ville = "LA DEFENSE"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CodePostal = "93500",
+                            Complement = "",
+                            Libelle = "3, aveenue des Parcs",
+                            Ville = "ROISSY EN France"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CodePostal = "93200",
+                            Complement = "",
+                            Libelle = "3, rue Lecourbe",
+                            Ville = "BAGNOLET"
+                        });
                 });
 
             modelBuilder.Entity("Projet.Data.Entities.AdresseProfessionel", b =>
@@ -108,6 +158,48 @@ namespace Projet.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AdressesProfessionnels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CodePostal = "94120",
+                            Complement = "Digicode 1432",
+                            Libelle = "125, rue LaFayette",
+                            Ville = "FONTENAY SOUS BOIS"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CodePostal = "92060",
+                            Complement = "",
+                            Libelle = "10, esplanade de la Défense",
+                            Ville = "LA DEFENSE"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CodePostal = "75002",
+                            Complement = "Bat. C",
+                            Libelle = "32, rue E. Renan",
+                            Ville = "Paris"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CodePostal = "92060",
+                            Complement = "Tour Franklin",
+                            Libelle = "24, esplanade de la Défense",
+                            Ville = "LA DEFENSE"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CodePostal = "75008",
+                            Complement = "",
+                            Libelle = "10, rue de la Paix",
+                            Ville = "PARIS"
+                        });
                 });
 
             modelBuilder.Entity("Projet.Data.Entities.Client", b =>
@@ -198,6 +290,18 @@ namespace Projet.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("ClientParticulier");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AdressePostaleId = 1,
+                            Email = "bety@gmail.com",
+                            Nom = "BETY",
+                            DateNaissance = new DateTime(1985, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Prenom = "Daniel",
+                            Sexe = 20
+                        });
                 });
 
             modelBuilder.Entity("Projet.Data.Entities.ClientProfessionnel", b =>

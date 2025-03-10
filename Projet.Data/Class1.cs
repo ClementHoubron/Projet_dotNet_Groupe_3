@@ -1,4 +1,4 @@
-﻿namespace Projet_dotNet_Groupe_3
+﻿namespace Projet.Data
 {
     public class Class1
     {

@@ -14,10 +14,10 @@ namespace Projet.Data.Entities
 
 
     /// <summary>
-    /// Entity of ClientProfessionel
+    /// Entity of ClientProfessionnel
     /// </summary>
     ///
-    public class ClientProfessionel : Client
+    public class ClientProfessionnel : Client
     {
         [RegularExpression("[1-9]{14}", ErrorMessage = "Siret needs to be 14 numbers.")]
         public string Siret { get; set; }

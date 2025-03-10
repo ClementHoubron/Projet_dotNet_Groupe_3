@@ -8,7 +8,7 @@ namespace Projet.Data.Entities
     /// <summary>
     /// Entity of Client
     /// </summary>
-    public class Client
+    public abstract class Client
     {
         [Key]
         public int Id { get; set; }
@@ -18,7 +18,7 @@ namespace Projet.Data.Entities
      
         public Adresse AdressePostale { get; set; }
 
-        [RegularExpression(".*@.*", ErrorMessage = "Email needs to contain an @."]
+        [RegularExpression(".*@.*", ErrorMessage = "Email needs to contain an @.")]
         public string Email { get; set; }
         public List<CompteBancaire> Comptes { get; set; } = new List<CompteBancaire>();
     }

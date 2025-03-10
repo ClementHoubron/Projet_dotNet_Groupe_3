@@ -14,11 +14,14 @@ public class MyDbContext : DbContext
     public DbSet<AdresseProfessionel> AdressesProfessionnels { get; set; }
     public DbSet<CompteBancaire> ComptesBancaires { get; set; }
     public DbSet<TransactionBancaire> TransactionsBancaires { get; set; }
+    public DbSet<AnomalieTransaction> AnomaliesTransactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
             "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DotNetProjet;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+
+    }
 
     }
 
@@ -358,7 +361,8 @@ public class MyDbContext : DbContext
 
             });
 
+        modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
+        modelBuilder.Entity<Client>().UseTpcMappingStrategy();
     }
 
 }
-

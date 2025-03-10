@@ -13,4 +13,5 @@ public class TransactionBancaire
     public string Devise { get; set; }
     public int CompteBancaireId { get; set; }
     public CompteBancaire CompteBancaire { get; set; }
+    public bool EstValide { get; set; } = true;
 }

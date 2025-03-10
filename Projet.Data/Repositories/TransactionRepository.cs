@@ -1,15 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Projet.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 public interface ITransactionRepository : IRepository<TransactionBancaire>
 {
     IEnumerable<TransactionBancaire> GetTransactionsByAccountId(int compteId);
     void AjouterTransactionAvecVerification(TransactionBancaire transaction);
+    void GenererFichierTransactions();
 }
 
 public class TransactionRepository : Repository<TransactionBancaire>, ITransactionRepository
@@ -59,5 +62,12 @@ public class TransactionRepository : Repository<TransactionBancaire>, ITransacti
             alternate = !alternate;
         }
         return (sum % 10 == 0);
+    }
+
+    public void GenererFichierTransactions()
+    {
+        var transactionsValides = _context.TransactionsBancaires.Where(t => t.EstValide).ToList();
+        string json = JsonConvert.SerializeObject(transactionsValides, Newtonsoft.Json.Formatting.Indented);
+        File.WriteAllText("transactions_validees.json", json);
     }
 }

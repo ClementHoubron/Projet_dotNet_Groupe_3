@@ -1,12 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 /// <summary>
 /// Entity of CompteBancaire
 /// </summary>
 public class CompteBancaire
 {
-    public int Id { get; set; }
+    [Key]
     public string NumeroCompte { get; set; }
+    [Required]
     public DateTime DateOuverture { get; set; }
     public decimal Solde { get; set; } = 1000.00m;
     public int ClientId { get; set; }

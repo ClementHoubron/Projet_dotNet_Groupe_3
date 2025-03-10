@@ -1,14 +1,16 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 /// <summary>
-/// Summary description for Class1
+/// Summary description for CompteBancaireDto
 /// </summary>
-public class Class1
+public class CompteBancaireDto
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public string NumeroCompte { get; set; }
+    [Required]
+    public DateTime DateOuverture { get; set; }
+    public decimal Solde { get; set; } = 1000.00m;
+    public int ClientId { get; set; }
+    public Client Client { get; set; }
+
 }

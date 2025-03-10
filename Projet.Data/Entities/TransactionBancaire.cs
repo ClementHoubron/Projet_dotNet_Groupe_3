@@ -1,14 +1,16 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// entity of TransactionBancaire
 /// </summary>
-public class Class1
+public class TransactionBancaire
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public int Id { get; set; }
+    public string NumeroCarte { get; set; }
+    public decimal Montant { get; set; }
+    public string TypeOperation { get; set; }
+    public DateTime DateOperation { get; set; }
+    public string Devise { get; set; }
+    public int CompteBancaireId { get; set; }
+    public CompteBancaire CompteBancaire { get; set; }
 }

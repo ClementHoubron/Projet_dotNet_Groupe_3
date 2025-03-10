@@ -1,14 +1,14 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// Entity of CompteBancaire
 /// </summary>
-public class Class1
+public class CompteBancaire
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public int Id { get; set; }
+    public string NumeroCompte { get; set; }
+    public DateTime DateOuverture { get; set; }
+    public decimal Solde { get; set; } = 1000.00m;
+    public int ClientId { get; set; }
+    public Client Client { get; set; }
 }

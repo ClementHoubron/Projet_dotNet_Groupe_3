@@ -1,14 +1,11 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// Entity of ClientParticulier
 /// </summary>
-public class Class1
+public class ClientParticulier : Client
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public DateTime DateNaissance { get; set; }
+    public string Prenom { get; set; }
+    public char Sexe { get; set; }
 }

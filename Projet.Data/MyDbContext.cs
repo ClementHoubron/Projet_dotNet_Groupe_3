@@ -1,14 +1,21 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// MyDbContext
 /// </summary>
-public class Class1
+public class MyDbContext : DbContext
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+	public DbSet<Client> Clients { get; set; }
+    public DbSet<ClientParticulier> ClientsParticuliers { get; set; }
+    public DbSet<ClientProfessionel> ClientsProfessionels { get; set; }
+    public DbSet<CompteBancaire> ComptesBancaires { get; set; }
+    public DbSet<TransactionBancaire> TransactionsBancaires { get; set; }
+
+    public MyDbContext(DbContextOpations<MyDbContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Client>().UseTpcMappingStrategy();
+    }
+
 }

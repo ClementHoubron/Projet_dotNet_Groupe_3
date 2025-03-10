@@ -1,14 +1,12 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// Entity of ClientProfessionel
 /// </summary>
-public class Class1
+public class ClientProfessionnel : Client
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public string Siret { get; set; }
+    public string StatutJuridique { get; set; }
+    public string AdresseSiege { get; set; }
+}}
 }

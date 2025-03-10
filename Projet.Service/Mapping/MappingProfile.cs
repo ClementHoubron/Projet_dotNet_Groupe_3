@@ -1,14 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 
 /// <summary>
-/// Summary description for Class1
+/// Summary description for MappingProfile
 /// </summary>
-public class Class1
+class MappingProfile : Profile
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public MappingProfile()
+    {
+        CreateMap<CompteBancaire, CompteBancaireDto>().ReverseMap();
+
+    }
 }

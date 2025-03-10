@@ -23,6 +23,7 @@ public class MyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();
     }
 

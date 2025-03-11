@@ -5,7 +5,7 @@ using Recap.Business.Services;
 namespace Projet.API.Serveur.Controllers
 {
     [ApiController]
-    [Route("api/[client]")]
+    [Route("api/[controller]")]
     public class ClientController : Controller
     {
 

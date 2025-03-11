@@ -37,11 +37,11 @@ public class TransactionRepository : IRepository<TransactionBancaire>, ITransact
 
     public void AjouterTransactionAvecVerification(TransactionBancaire transaction)
     {
-        if (!ValiderNumeroCarte(transaction.NumeroCarte))
+        if (!ValiderNumeroCarte(transaction.NumeroCompte))
         {
             _context.AnomaliesTransactions.Add(new AnomalieTransaction
             {
-                NumeroCarte = transaction.NumeroCarte,
+                NumeroCompte = transaction.NumeroCompte,
                 Montant = transaction.Montant,
                 TypeOperation = transaction.TypeOperation,
                 DateOperation = transaction.DateOperation,
@@ -56,13 +56,13 @@ public class TransactionRepository : IRepository<TransactionBancaire>, ITransact
         _context.SaveChanges();
     }
 
-    private bool ValiderNumeroCarte(string numeroCarte)
+    private bool ValiderNumeroCarte(string numeroCompte)
     {
         int sum = 0;
         bool alternate = false;
-        for (int i = numeroCarte.Length - 1; i >= 0; i--)
+        for (int i = numeroCompte.Length - 1; i >= 0; i--)
         {
-            int n = int.Parse(numeroCarte[i].ToString());
+            int n = int.Parse(numeroCompte[i].ToString());
             if (alternate)
             {
                 n *= 2;

@@ -23,7 +23,7 @@ using Projet.Data.Entities;
             return transactions.Select(t => new TransactionBancaireDto
             {
                 Id = t.Id,
-                NumeroCarte = t.NumeroCarte,
+                NumeroCompte = t.NumeroCompte,
                 Montant = t.Montant,
                 TypeOperation = t.TypeOperation,
                 DateOperation = t.DateOperation,
@@ -39,7 +39,7 @@ using Projet.Data.Entities;
             return transactions.Select(t => new TransactionBancaireDto
             {
                 Id = t.Id,
-                NumeroCarte = t.NumeroCarte,
+                NumeroCompte = t.NumeroCompte,
                 Montant = t.Montant,
                 TypeOperation = t.TypeOperation,
                 DateOperation = t.DateOperation,
@@ -53,7 +53,7 @@ using Projet.Data.Entities;
         {
             var transaction = new TransactionBancaire
             {
-                NumeroCarte = transactionDto.NumeroCarte,
+                NumeroCompte = transactionDto.NumeroCompte,
                 Montant = transactionDto.Montant,
                 TypeOperation = transactionDto.TypeOperation,
                 DateOperation = transactionDto.DateOperation,
@@ -62,11 +62,11 @@ using Projet.Data.Entities;
                 EstValide = true
             };
 
-            if (!ValiderNumeroCarte(transaction.NumeroCarte))
+            if (!ValiderNumeroCarte(transaction.NumeroCompte))
             {
                 var anomalie = new AnomalieTransaction
                 {
-                    NumeroCarte = transaction.NumeroCarte,
+                    NumeroCompte = transaction.NumeroCompte,
                     Montant = transaction.Montant,
                     TypeOperation = transaction.TypeOperation,
                     DateOperation = transaction.DateOperation,

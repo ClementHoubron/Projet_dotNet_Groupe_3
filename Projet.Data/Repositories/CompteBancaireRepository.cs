@@ -22,6 +22,12 @@ namespace Projet.Data.Repositories
         public async void Add(CompteBancaire compte)
         {
             using var context = new MyDbContext();
+            string newNumCompte = GenerateNumCompte();
+            while (await GetByNum(newNumCompte) != null)
+            {
+                newNumCompte = GenerateNumCompte();
+            }
+            compte.NumeroCompte = newNumCompte;
             await context.ComptesBancaires.AddAsync(compte);
             await context.SaveChangesAsync();
         }
@@ -55,6 +61,48 @@ namespace Projet.Data.Repositories
                 await context.SaveChangesAsync();
             }
 
+        }
+
+        public string GenerateNumCompte()
+        {
+            string baseNumCompte = "4974 0185 0223";
+            int baseCount = 58;
+            Random rand = new Random();
+            int[] endNumCompte = new int[3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                endNumCompte[i] = rand.Next(0, 10);
+            }
+
+            int lastNum = CalculateCheckEndNums(endNumCompte);
+
+            return $"{baseNumCompte}{endNumCompte}{lastNum}";
+        }
+
+        public int CalculateCheckEndNums(int[] endNums)
+        {
+            int sum = 0;
+            bool evenNum = false;
+
+            for (int i = endNums.Length - 1; i >= 0; i--)
+            {
+                int num = endNums[i];
+
+                if (evenNum)
+                {
+                    num *= 2;
+                    if (num > 9)
+                    {
+                        num -= 9;
+                    }
+                }
+
+                sum += num;
+                evenNum = !evenNum;
+            }
+            int remaining = sum % 10;
+            return (10 - remaining) % 10;
         }
     }
 }

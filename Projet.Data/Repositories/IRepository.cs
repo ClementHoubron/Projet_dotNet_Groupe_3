@@ -1,29 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+using Projet.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
-
-public interface IRepository<T> where T : class
+namespace Projet.Data.Repositories
 {
+        {
 
-    IEnumerable<T> GetAll();
-    void Add(T entity);
-    void Update(T entity);
-    void Save();
-}
-
-public class Repository<T> : IRepository<T> where T : class
-{
-    private readonly MyDbContext _context;
-    private readonly DbSet<T> _dbSet;
-
-    public Repository(MyDbContext context)
-    {
-        _context = context;
-        _dbSet = _context.Set<T>();
+            return clients;
+        }
     }
-
+}
+========
     public IEnumerable<T> GetAll() => _dbSet.ToList();
     public T GetById(int id) => _dbSet.Find(id);
     public void Add(T entity) { _dbSet.Add(entity); Save(); }
@@ -36,3 +29,4 @@ public class Repository<T> : IRepository<T> where T : class
     }
 }
         
+>>>>>>>> develop:Projet.Data/Repositories/IRepository.cs

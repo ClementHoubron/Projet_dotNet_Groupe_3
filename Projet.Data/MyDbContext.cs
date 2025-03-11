@@ -9,7 +9,9 @@ public class MyDbContext : DbContext
 {
     public DbSet<Client> Clients { get; set; }
     public DbSet<ClientParticulier> ClientsParticuliers { get; set; }
-    public DbSet<ClientProfessionnel> ClientsProfessionels { get; set; }
+    public DbSet<ClientProfessionnel> ClientsProfessionnels { get; set; }
+    public DbSet<AdresseParticulier> AdressesParticulier { get; set; }
+    public DbSet<AdresseProfessionel> AdressesProfessionnels { get; set; }
     public DbSet<CompteBancaire> ComptesBancaires { get; set; }
     public DbSet<TransactionBancaire> TransactionsBancaires { get; set; }
     public DbSet<AnomalieTransaction> AnomaliesTransactions { get; set; }
@@ -21,8 +23,344 @@ public class MyDbContext : DbContext
 
     }
 
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //modelBuilder.Entity<Client>().UseTpcMappingStrategy();
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 1,
+                Libelle = "12, rue des Oliviers",
+                Complement = "",
+                Ville = "CRETEIL",
+                CodePostal = "94000"
+            }
+            );
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 2,
+                Libelle = "10, rue des Olivies",
+                Complement = "Etage 2",
+                Ville = "VINCENNES",
+                CodePostal = "94300"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 3,
+                Libelle = "15, rue de la République",
+                Complement = "",
+                Ville = "FONTENAY SOUS BOIS",
+                CodePostal = "94120"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 4,
+                Libelle = "25, rue de la Paix",
+                Complement = "",
+                Ville = "LA DEFENSE",
+                CodePostal = "92100"
+            }
+            );
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 5,
+                Libelle = "3, aveenue des Parcs",
+                Complement = "",
+                Ville = "ROISSY EN France",
+                CodePostal = "93500"
+            }
+            );
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 6,
+                Libelle = "3, rue Lecourbe",
+                Complement = "",
+                Ville = "BAGNOLET",
+                CodePostal = "93200"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 7,
+                Libelle = "125, rue LaFayette",
+                Complement = "digicode 1432",
+                Ville = "FONTENAY SOUS BOIS",
+                CodePostal = "94120"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 8,
+                Libelle = "36, quai des Orfèvres",
+                Complement = "",
+                Ville = "ROISSY EN FRANCE",
+                CodePostal = "93500"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 9,
+                Libelle = "32, rue E. Renan",
+                Complement = "Bat. C",
+                Ville = "PARIS",
+                CodePostal = "75002"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 10,
+                Libelle = "23, av P. Valery",
+                Complement = "",
+                Ville = "LA DEFENSE",
+                CodePostal = "92100"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseParticulier>().HasData(
+            new AdresseParticulier
+            {
+                Id = 11,
+                Libelle = "15, Place de la Bastille",
+                Complement = "Fond de Cour",
+                Ville = "PARIS",
+                CodePostal = "75003"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseProfessionel>().HasData(
+            new AdresseProfessionel
+            {
+                Id = 1,
+                Libelle = "125, rue LaFayette",
+                Complement = "Digicode 1432",
+                Ville = "FONTENAY SOUS BOIS",
+                CodePostal = "94120"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseProfessionel>().HasData(
+            new AdresseProfessionel
+            {
+                Id = 2,
+                Libelle = "10, esplanade de la Défense",
+                Complement = "",
+                Ville = "LA DEFENSE",
+                CodePostal = "92060"
+            }
+            );
+
+
+        modelBuilder.Entity<AdresseProfessionel>().HasData(
+            new AdresseProfessionel
+            {
+                Id = 3,
+                Libelle = "32, rue E. Renan",
+                Complement = "Bat. C",
+                Ville = "Paris",
+                CodePostal = "75002"
+            }
+            );
+
+        modelBuilder.Entity<AdresseProfessionel>().HasData(
+            new AdresseProfessionel
+            {
+                Id = 4,
+                Libelle = "24, esplanade de la Défense",
+                Complement = "Tour Franklin",
+                Ville = "LA DEFENSE",
+                CodePostal = "92060"
+            }
+            );
+
+        modelBuilder.Entity<AdresseProfessionel>().HasData(
+            new AdresseProfessionel
+            {
+                Id = 5,
+                Libelle = "10, rue de la Paix",
+                Complement = "",
+                Ville = "PARIS",
+                CodePostal = "75008"
+            }
+            );
+
+        modelBuilder.Entity<ClientParticulier>().HasData(
+            new ClientParticulier
+            {
+                Id = 1,
+                Nom = "BETY",
+                Email = "bety@gmail.com",
+                Prenom = "Daniel",
+                Sexe = Sexe.M,
+                DateNaissance = new DateTime(1985, 11, 12),
+                AdressePostaleId = 1,
+
+            });
+
+
+        modelBuilder.Entity<ClientParticulier>().HasData(
+            new ClientParticulier
+            {
+                Id = 3,
+                Nom = "BODIN",
+                Email = "bodin@gmail.com",
+                Prenom = "Justin",
+                Sexe = Sexe.M,
+                DateNaissance = new DateTime(1965, 05, 05),
+                AdressePostaleId = 2,
+
+            });
+
+        modelBuilder.Entity<ClientParticulier>().HasData(
+            new ClientParticulier
+            { 
+                Id = 5,
+                Nom = "BERRIS",
+                Email = "berris@gmail.com",
+                Prenom = "Karine",
+                Sexe = Sexe.F,
+                DateNaissance = new DateTime(1977, 06, 06),
+                AdressePostaleId = 3,
+
+            });
+
+        modelBuilder.Entity<ClientParticulier>().HasData(
+            new ClientParticulier
+            {
+                Id = 7,
+                Nom = "ABENIR",
+                Email = "abenir@gmail.com",
+                Prenom = "Alexandra",
+                Sexe = Sexe.F,
+                DateNaissance = new DateTime(1977, 04, 12),
+                AdressePostaleId = 4,
+
+            });
+
+        modelBuilder.Entity<ClientParticulier>().HasData(
+            new ClientParticulier
+            {
+                Id = 9,
+                Nom = "BENSAID",
+                Email = "bensaid@gmail.com",
+                Prenom = "Georgia",
+                Sexe = Sexe.F,
+                DateNaissance = new DateTime(1976, 04, 16),
+                AdressePostaleId = 5
+
+            });
+
+        modelBuilder.Entity<ClientParticulier>().HasData(
+            new ClientParticulier
+            {
+                Id = 11,
+                Nom = "ABABOU",
+                Email = "ababou@gmail.com",
+                Prenom = "Teddy",
+                Sexe = Sexe.M,
+                DateNaissance = new DateTime(1970, 10, 10),
+                AdressePostaleId = 6
+
+            });
+
+
+        modelBuilder.Entity<ClientProfessionnel>().HasData(
+            new ClientProfessionnel
+            {
+                Id = 2,
+                Nom = "AXA",
+                Email = "info@axa.com",
+                Siret = "12548795641122",
+                StatutJuridique = StatutJuridique.SARL,
+                AdressePostaleId = 7,
+                AdresseSiegeId = 1
+
+            });
+
+
+        modelBuilder.Entity<ClientProfessionnel>().HasData(
+            new ClientProfessionnel
+            {
+                Id = 4,
+                Nom = "PAUL",
+                Email = "info@paul.com",
+                Siret = "87459564455444",
+                StatutJuridique = StatutJuridique.EURL,
+                AdressePostaleId = 8,
+                AdresseSiegeId = 2
+
+            });
+
+        modelBuilder.Entity<ClientProfessionnel>().HasData(
+            new ClientProfessionnel
+            {
+                Id = 6,
+                Nom = "PRIMARK",
+                Email = "info@primark.com",
+                Siret = "08755897458455",
+                StatutJuridique = StatutJuridique.SARL,
+                AdressePostaleId = 9,
+                AdresseSiegeId = 3
+
+            });
+
+        modelBuilder.Entity<ClientProfessionnel>().HasData(
+            new ClientProfessionnel
+            { 
+                Id = 8,
+                Nom = "ZARA",
+                Email = "info@zara.com",
+                Siret = "65895874587854",
+                StatutJuridique = StatutJuridique.SA,
+                AdressePostaleId = 10,
+                AdresseSiegeId = 4
+
+            });
+
+        modelBuilder.Entity<ClientProfessionnel>().HasData(
+            new ClientProfessionnel
+            {
+                Id = 10,
+                Nom = "LEONIDAS",
+                Email = "info@leonidas.com",
+                Siret = "91235987456832",
+                StatutJuridique = StatutJuridique.SAS,
+                AdressePostaleId = 11,
+                AdresseSiegeId = 5
+
+            });
+
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();
     }

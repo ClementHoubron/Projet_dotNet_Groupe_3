@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Projet.Data.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 /// <summary>

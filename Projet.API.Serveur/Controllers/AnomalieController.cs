@@ -32,7 +32,7 @@ using System.Threading.Tasks;
             }
 
             _anomalieService.AjouterAnomalie(
-                anomalie.NumeroCarte,
+                anomalie.NumeroCompte,
                 anomalie.Montant,
                 anomalie.TypeOperation,
                 anomalie.DateOperation,

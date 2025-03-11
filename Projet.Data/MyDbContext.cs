@@ -478,7 +478,7 @@ public class MyDbContext : DbContext
             new TransactionBancaire
             {
                 Id = 1,
-                NumeroCompte = "4974 0185 0223 4832",
+                NumeroCarte = "4974 0185 0223 4832",
                 Montant = 150.75m,
                 TypeOperation = "Retrait",
                 DateOperation = new DateTime(2024, 3, 1),
@@ -487,7 +487,7 @@ public class MyDbContext : DbContext
             new TransactionBancaire
             {
                 Id = 2,
-                NumeroCompte = "4974 0185 0223 2949",
+                NumeroCarte = "4974 0185 0223 2949",
                 Montant = 2000.00m,
                 TypeOperation = "Virement",
                 DateOperation = new DateTime(2024, 2, 15),
@@ -496,7 +496,7 @@ public class MyDbContext : DbContext
             new TransactionBancaire
             {
                 Id = 3,
-                NumeroCompte = "4974 0185 0223 5200",
+                NumeroCarte = "4974 0185 0223 5200",
                 Montant = 500.50m,
                 TypeOperation = "Paiement",
                 DateOperation = new DateTime(2024, 1, 10),
@@ -505,7 +505,7 @@ public class MyDbContext : DbContext
             new TransactionBancaire
             {
                 Id = 4,
-                NumeroCompte = "4974 0185 0223 1783",
+                NumeroCarte = "4974 0185 0223 1783",
                 Montant = 1200.00m,
                 TypeOperation = "Dépôt",
                 DateOperation = new DateTime(2024, 3, 5),
@@ -514,7 +514,7 @@ public class MyDbContext : DbContext
             new TransactionBancaire
             {
                 Id = 5,
-                NumeroCompte = "4974 0185 0223 0002",
+                NumeroCarte = "4974 0185 0223 0002",
                 Montant = 50.00m,
                 TypeOperation = "Retrait",
                 DateOperation = new DateTime(2024, 2, 28),
@@ -523,7 +523,7 @@ public class MyDbContext : DbContext
             new TransactionBancaire
             {
                 Id = 6,
-                NumeroCompte = "4974 0185 0223 0102",
+                NumeroCarte = "4974 0185 0223 0102",
                 Montant = 300.00m,
                 TypeOperation = "Paiement",
                 DateOperation = new DateTime(2024, 3, 7),
@@ -531,6 +531,7 @@ public class MyDbContext : DbContext
             }
         );
         #endregion
+
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();
     }

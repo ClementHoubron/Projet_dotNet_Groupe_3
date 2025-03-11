@@ -9,7 +9,7 @@ namespace Projet.Data.Entities
     public class AnomalieTransaction
     {
         public int Id { get; set; }
-        public string NumeroCompte { get; set; }
+        public string NumeroCarte { get; set; }
         public decimal Montant { get; set; }
         public string TypeOperation { get; set; }
         public DateTime DateOperation { get; set; }

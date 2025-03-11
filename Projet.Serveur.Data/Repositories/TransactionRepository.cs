@@ -1,12 +1,13 @@
 ﻿using Projet.Serveur.Data.Entities;
 
+
 namespace Projet.Serveur.Data.Repositories
 {
     public interface ITransactionRepository
     {
-        void AddTransaction(Transaction transaction);
-        IEnumerable<Transaction> GetValidTransactions();
-        IEnumerable<Transaction> GetAnomalies();
+        void AddTransaction(TransactionBancaire transaction);
+        IEnumerable<TransactionBancaire> GetValidTransactions();
+        IEnumerable<TransactionBancaire> GetAnomalies();
     }
 
     public class TransactionRepository : ITransactionRepository
@@ -18,18 +19,18 @@ namespace Projet.Serveur.Data.Repositories
             _context = context;
         }
 
-        public void AddTransaction(Transaction transaction)
+        public void AddTransaction(TransactionBancaire transaction)
         {
             _context.Transactions.Add(transaction);
             _context.SaveChanges();
         }
 
-        public IEnumerable<Transaction> GetValidTransactions()
+        public IEnumerable<TransactionBancaire> GetValidTransactions()
         {
             return _context.Transactions.Where(t => t.EstValide).ToList();
         }
 
-        public IEnumerable<Transaction> GetAnomalies()
+        public IEnumerable<TransactionBancaire> GetAnomalies()
         {
             return _context.Transactions.Where(t => !t.EstValide).ToList();
         }

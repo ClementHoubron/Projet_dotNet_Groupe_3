@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Projet.AppClient.Data\Projet.AppClient.Data.csproj" />
-    <ProjectReference Include="..\Projet.Data\Projet.AppClient.Data.csproj" />
+    <ProjectReference Include="..\Projet.AppClient.Data\Projet.AppClient.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,6 +25,7 @@ namespace Projet.Data.Repositories
         {
             using var context = new MyDbContext();
             var products = await context.Clients
+                                        .Include("ComptesBancaires")
                                         .ToListAsync<Client>();
             return products;
         }

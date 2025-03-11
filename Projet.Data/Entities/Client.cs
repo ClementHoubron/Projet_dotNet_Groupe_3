@@ -21,6 +21,6 @@ namespace Projet.Data.Entities
 
         [RegularExpression(".*@.*", ErrorMessage = "Email needs to contain an @.")]
         public string Email { get; set; }
-        public List<CompteBancaire> Comptes { get; set; } = new List<CompteBancaire>();
+        public ICollection<CompteBancaire> ComptesBancaires { get; set; }
     }
 }

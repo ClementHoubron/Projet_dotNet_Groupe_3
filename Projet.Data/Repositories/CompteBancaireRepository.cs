@@ -36,6 +36,7 @@ namespace Projet.Data.Repositories
         {
             using var context = new MyDbContext();
             var comptes = await context.ComptesBancaires
+                                       .Include("Client")
                                        .ToListAsync<CompteBancaire>();
             return comptes;
         }
@@ -45,6 +46,7 @@ namespace Projet.Data.Repositories
             using var context = new MyDbContext();
             var compte = await context.ComptesBancaires
                                       .Where<CompteBancaire>(c => c.NumeroCompte == numCb)
+                                      .Include("Client")
                                       .SingleOrDefaultAsync<CompteBancaire>();
             return compte;
         }

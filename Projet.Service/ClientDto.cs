@@ -17,6 +17,6 @@ namespace Projet.Service
         public AdresseParticulier AdressePostale { get; set; }
 
         public string Email { get; set; }
-        public List<CompteBancaire> Comptes { get; set; } = new List<CompteBancaire>();
+        public ICollection<CompteBancaire> ComptesBancaires { get; set; }
     }
 }

@@ -21,13 +21,12 @@ namespace Projet.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.HasSequence("ClientSequence");
+
             modelBuilder.Entity("CompteBancaire", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("NumeroCompte")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -35,18 +34,14 @@ namespace Projet.Data.Migrations
                     b.Property<DateTime>("DateOuverture")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NumeroCompte")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Solde")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("NumeroCompte");
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("ComptesBancaires");
+                    b.ToTable("ComptesBancaires", (string)null);
                 });
 
             modelBuilder.Entity("Projet.Data.Entities.AdresseParticulier", b =>
@@ -239,7 +234,7 @@ namespace Projet.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Projet.Data.Entities.Client", b =>
+            modelBuilder.Entity("Projet.Data.Entities.AnomalieTransaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -247,13 +242,44 @@ namespace Projet.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateOperation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Devise")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Montant")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Motif")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroCarte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeOperation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AnomaliesTransactions");
+                });
+
+            modelBuilder.Entity("Projet.Data.Entities.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR [ClientSequence]");
+
+                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
+
                     b.Property<int>("AdressePostaleId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -268,11 +294,9 @@ namespace Projet.Data.Migrations
 
                     b.HasIndex("AdressePostaleId");
 
-                    b.ToTable("Clients");
+                    b.ToTable((string)null);
 
-                    b.HasDiscriminator().HasValue("Client");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("TransactionBancaire", b =>
@@ -286,12 +310,19 @@ namespace Projet.Data.Migrations
                     b.Property<int>("CompteBancaireId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CompteBancaireNumeroCompte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DateOperation")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Devise")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EstValide")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Montant")
                         .HasColumnType("decimal(18,2)");
@@ -306,7 +337,7 @@ namespace Projet.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompteBancaireId");
+                    b.HasIndex("CompteBancaireNumeroCompte");
 
                     b.ToTable("TransactionsBancaires");
                 });
@@ -326,7 +357,7 @@ namespace Projet.Data.Migrations
                     b.Property<int>("Sexe")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("ClientParticulier");
+                    b.ToTable("ClientsParticuliers");
 
                     b.HasData(
                         new
@@ -407,7 +438,7 @@ namespace Projet.Data.Migrations
 
                     b.HasIndex("AdresseSiegeId");
 
-                    b.HasDiscriminator().HasValue("ClientProfessionnel");
+                    b.ToTable("ClientsProfessionnels");
 
                     b.HasData(
                         new
@@ -488,7 +519,7 @@ namespace Projet.Data.Migrations
                 {
                     b.HasOne("CompteBancaire", "CompteBancaire")
                         .WithMany()
-                        .HasForeignKey("CompteBancaireId")
+                        .HasForeignKey("CompteBancaireNumeroCompte")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,14 +1,16 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// Transaction Bancaire DTO
 /// </summary>
-public class Class1
+public class TransactionBancaireDto
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public int Id { get; set; }
+    public string NumeroCarte { get; set; }
+    public decimal Montant { get; set; }
+    public string TypeOperation { get; set; }
+    public DateTime DateOperation { get; set; }
+    public string Devise { get; set; }
+    public int CompteBancaireId { get; set; }
+    public bool EstValide { get; set; }
 }

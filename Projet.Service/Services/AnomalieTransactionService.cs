@@ -19,12 +19,12 @@ namespace Projet.Services
             return await _anomalieRepository.GetAll();
         }
 
-        public void AjouterAnomalie(string numeroCompte, decimal montant, string typeOperation,
+        public void AjouterAnomalie(string numeroCarte, decimal montant, string typeOperation,
                                     DateTime dateOperation, string devise, string motif)
         {
             var anomalie = new AnomalieTransaction
             {
-                NumeroCompte = numeroCompte,
+                NumeroCarte = numeroCarte,
                 Montant = montant,
                 TypeOperation = typeOperation,
                 DateOperation = dateOperation,

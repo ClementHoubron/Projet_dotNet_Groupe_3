@@ -13,6 +13,8 @@ public interface ITransactionRepository : IRepository<TransactionBancaire>
 {
     void AjouterTransactionAvecVerification(TransactionBancaire transaction);
     void GenererFichierTransactions();
+
+
 }
 
 public class TransactionRepository : IRepository<TransactionBancaire>, ITransactionRepository
@@ -33,11 +35,11 @@ public class TransactionRepository : IRepository<TransactionBancaire>, ITransact
 
     public void AjouterTransactionAvecVerification(TransactionBancaire transaction)
     {
-        if (!ValiderNumeroCarte(transaction.NumeroCompte))
+        if (!ValiderNumeroCarte(transaction.NumeroCarte))
         {
             _context.AnomaliesTransactions.Add(new AnomalieTransaction
             {
-                NumeroCompte = transaction.NumeroCompte,
+                NumeroCarte = transaction.NumeroCarte,
                 Montant = transaction.Montant,
                 TypeOperation = transaction.TypeOperation,
                 DateOperation = transaction.DateOperation,
@@ -52,13 +54,13 @@ public class TransactionRepository : IRepository<TransactionBancaire>, ITransact
         _context.SaveChanges();
     }
 
-    private bool ValiderNumeroCarte(string numeroCompte)
+    private bool ValiderNumeroCarte(string numeroCarte)
     {
         int sum = 0;
         bool alternate = false;
-        for (int i = numeroCompte.Length - 1; i >= 0; i--)
+        for (int i = numeroCarte.Length - 1; i >= 0; i--)
         {
-            int n = int.Parse(numeroCompte[i].ToString());
+            int n = int.Parse(numeroCarte[i].ToString());
             if (alternate)
             {
                 n *= 2;
@@ -81,4 +83,10 @@ public class TransactionRepository : IRepository<TransactionBancaire>, ITransact
     {
         throw new NotImplementedException();
     }
+
+    public IEnumerable<TransactionBancaire> GetTransactionsByCompte(string carteNum)
+    {
+        return _context.TransactionsBancaires.Where(t => t.NumeroCarte == carteNum).ToList();
+    }
+
 }

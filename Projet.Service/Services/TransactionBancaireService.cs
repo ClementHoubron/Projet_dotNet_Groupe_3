@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using Projet.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
     public class TransactionBancaireService
     {
-        private readonly ITransactionRepository _transactionRepository;
+        private readonly TransactionRepository _transactionRepository;
         private readonly AnomalieRepository _anomalieRepository;
 
-        public TransactionBancaireService(ITransactionRepository transactionRepository, AnomalieRepository anomalieRepository)
+        public TransactionBancaireService(TransactionRepository transactionRepository, AnomalieRepository anomalieRepository)
         {
             _transactionRepository = transactionRepository;
             _anomalieRepository = anomalieRepository;
@@ -23,7 +24,7 @@ using Projet.Data.Entities;
             return transactions.Select(t => new TransactionBancaireDto
             {
                 Id = t.Id,
-                NumeroCompte = t.NumeroCompte,
+                NumeroCarte = t.NumeroCarte,
                 Montant = t.Montant,
                 TypeOperation = t.TypeOperation,
                 DateOperation = t.DateOperation,
@@ -32,27 +33,11 @@ using Projet.Data.Entities;
             });
         }
 
-        //public async Task<IEnumerable<TransactionBancaireDto>> GetTransactionsByCompte(string numCompte)
-        //{
-        //    var transactions = await Task.Run(() => _transactionRepository.get;
-        //    return transactions.Select(t => new TransactionBancaireDto
-        //    {
-        //        Id = t.Id,
-        //        NumeroCompte = t.NumeroCompte,
-        //        Montant = t.Montant,
-        //        TypeOperation = t.TypeOperation,
-        //        DateOperation = t.DateOperation,
-        //        Devise = t.Devise,
-        //        CompteBancaireId = t.CompteBancaireId,
-        //        EstValide = t.EstValide
-        //    });
-        //}
-
-        public async Task AjouterTransaction(TransactionBancaireDto transactionDto)
+    public async Task AjouterTransaction(TransactionBancaireDto transactionDto)
         {
             var transaction = new TransactionBancaire
             {
-                NumeroCompte = transactionDto.NumeroCompte,
+                NumeroCarte = transactionDto.NumeroCarte,
                 Montant = transactionDto.Montant,
                 TypeOperation = transactionDto.TypeOperation,
                 DateOperation = transactionDto.DateOperation,
@@ -60,11 +45,11 @@ using Projet.Data.Entities;
                 EstValide = true
             };
 
-            if (!ValiderNumeroCarte(transaction.NumeroCompte))
+            if (!ValiderNumeroCarte(transaction.NumeroCarte))
             {
                 var anomalie = new AnomalieTransaction
                 {
-                    NumeroCompte = transaction.NumeroCompte,
+                    NumeroCarte = transaction.NumeroCarte,
                     Montant = transaction.Montant,
                     TypeOperation = transaction.TypeOperation,
                     DateOperation = transaction.DateOperation,

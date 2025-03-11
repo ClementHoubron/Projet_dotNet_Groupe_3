@@ -160,6 +160,8 @@ nCrunchTemp_*
 *.mm.*
 AutoTest.Net/
 
+Projet.Data/Migrations
+
 # Web workbench (sass)
 .sass-cache/
 

@@ -1,4 +1,4 @@
-using BankingApp.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-builder.Services.AddScoped<IAnomalieRepository, AnomalieRepository>();
+builder.Services.AddScoped<AnomalieRepository, AnomalieRepository>();
 
 var app = builder.Build();
 

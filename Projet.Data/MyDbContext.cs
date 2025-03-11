@@ -23,7 +23,7 @@ public class MyDbContext : DbContext
 
     }
 
-    }
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

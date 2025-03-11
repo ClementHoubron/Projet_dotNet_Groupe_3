@@ -1,24 +1,26 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
-
-
+using Projet.Data.Entities;
 
     public class TransactionBancaireService
     {
         private readonly ITransactionRepository _transactionRepository;
+        private readonly AnomalieRepository _anomalieRepository;
 
-        public TransactionBancaireService(ITransactionRepository transactionRepository)
+        public TransactionBancaireService(ITransactionRepository transactionRepository, AnomalieRepository anomalieRepository)
         {
             _transactionRepository = transactionRepository;
+            _anomalieRepository = anomalieRepository;
         }
 
-        public IEnumerable<TransactionBancaireDto> GetAllTransactions()
+        public async Task<IEnumerable<TransactionBancaireDto>> GetAllTransactions()
         {
-            return _transactionRepository.GetAll().Select(t => new TransactionBancaireDto
+            var transactions = await _transactionRepository.GetAll();
+            return transactions.Select(t => new TransactionBancaireDto
             {
                 Id = t.Id,
                 NumeroCarte = t.NumeroCarte,
@@ -31,23 +33,23 @@ using Newtonsoft.Json;
             });
         }
 
-        public IEnumerable<TransactionBancaireDto> GetTransactionsByCompte(int compteId)
+        public async Task<IEnumerable<TransactionBancaireDto>> GetTransactionsByCompte(int compteId)
         {
-            return _transactionRepository.GetTransactionsByAccountId(compteId)
-                .Select(t => new TransactionBancaireDto
-                {
-                    Id = t.Id,
-                    NumeroCarte = t.NumeroCarte,
-                    Montant = t.Montant,
-                    TypeOperation = t.TypeOperation,
-                    DateOperation = t.DateOperation,
-                    Devise = t.Devise,
-                    CompteBancaireId = t.CompteBancaireId,
-                    EstValide = t.EstValide
-                });
+            var transactions = await Task.Run(() => _transactionRepository.GetTransactionsByAccountId(compteId));
+            return transactions.Select(t => new TransactionBancaireDto
+            {
+                Id = t.Id,
+                NumeroCarte = t.NumeroCarte,
+                Montant = t.Montant,
+                TypeOperation = t.TypeOperation,
+                DateOperation = t.DateOperation,
+                Devise = t.Devise,
+                CompteBancaireId = t.CompteBancaireId,
+                EstValide = t.EstValide
+            });
         }
 
-        public void AjouterTransaction(TransactionBancaireDto transactionDto)
+        public async Task AjouterTransaction(TransactionBancaireDto transactionDto)
         {
             var transaction = new TransactionBancaire
             {
@@ -60,14 +62,50 @@ using Newtonsoft.Json;
                 EstValide = true
             };
 
-            _transactionRepository.AjouterTransactionAvecVerification(transaction);
+            if (!ValiderNumeroCarte(transaction.NumeroCarte))
+            {
+                var anomalie = new AnomalieTransaction
+                {
+                    NumeroCarte = transaction.NumeroCarte,
+                    Montant = transaction.Montant,
+                    TypeOperation = transaction.TypeOperation,
+                    DateOperation = transaction.DateOperation,
+                    Devise = transaction.Devise,
+                    Motif = "Numéro de carte invalide"
+                };
+
+                _anomalieRepository.AjouterAnomalie(anomalie);
+            }
+            else
+            {
+                _transactionRepository.AjouterTransactionAvecVerification(transaction);
+            }
         }
 
-        public void GenererFichierTransactions()
+        public async Task GenererFichierTransactions()
         {
-            var transactionsValides = _transactionRepository.GetAll().Where(t => t.EstValide).ToList();
-            string json = JsonConvert.SerializeObject(transactionsValides, Formatting.Indented);
-            File.WriteAllText("transactions_validees.json", json);
+            var transactionsValides = await _transactionRepository.GetAll();
+            var transactionsFiltrees = transactionsValides.Where(t => t.EstValide).ToList();
+
+            string json = JsonConvert.SerializeObject(transactionsFiltrees, Formatting.Indented);
+            await File.WriteAllTextAsync("transactions_validees.json", json);
+        }
+
+        private bool ValiderNumeroCarte(string numeroCarte)
+        {
+            int sum = 0;
+            bool alternate = false;
+            for (int i = numeroCarte.Length - 1; i >= 0; i--)
+            {
+                int n = int.Parse(numeroCarte[i].ToString());
+                if (alternate)
+                {
+                    n *= 2;
+                    if (n > 9) n -= 9;
+                }
+                sum += n;
+                alternate = !alternate;
+            }
+            return (sum % 10 == 0);
         }
     }
-

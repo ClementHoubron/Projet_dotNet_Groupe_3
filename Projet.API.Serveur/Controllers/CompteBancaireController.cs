@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Projet.Service.Services;
 
-namespace Projet.API.Serveur.Controllers
-{
+
     [ApiController]
     [Route("api/[controller]")]
     public class CompteBancaireController : Controller
@@ -32,4 +31,3 @@ namespace Projet.API.Serveur.Controllers
             return Ok(compteDto);
         }
     }
-}

@@ -24,5 +24,13 @@ public class AnomalieRepository : IRepository<AnomalieTransaction>
         return await context.AnomaliesTransactions.ToListAsync();
     }
 
+    public void AjouterAnomalie(AnomalieTransaction anomalie)
+
+    {
+        using var context = new MyDbContext();
+        context.AnomaliesTransactions.Add(anomalie);
+        context.SaveChanges();
+    }
+
 
 }

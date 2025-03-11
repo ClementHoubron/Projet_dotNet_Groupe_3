@@ -14,5 +14,6 @@ namespace Projet.Serveur.Data.Entities
         public DateTime DateOperation { get; set; }
         public string Devise { get; set; }
         public bool EstValide { get; set; } = true;
+        public decimal TauxDeChange { get; set; }
     }
 }

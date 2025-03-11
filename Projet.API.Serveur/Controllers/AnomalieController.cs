@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Projet.Data.Entities;
+using Projet.Services;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-
-    [Route("api/anomalies")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AnomalieController : ControllerBase
     {
@@ -14,9 +17,30 @@ using System.Collections.Generic;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AnomalieTransactionDto>> GetAllAnomalies()
+        public async Task<ActionResult<List<AnomalieTransaction>>> GetAllAnomalies()
         {
-            return Ok(_anomalieService.GetAllAnomalies());
+            var anomalies = await _anomalieService.GetAllAnomalies();
+            return Ok(anomalies);
+        }
+
+        [HttpPost]
+        public IActionResult AjouterAnomalie([FromBody] AnomalieTransaction anomalie)
+        {
+            if (anomalie == null)
+            {
+                return BadRequest("Données invalides.");
+            }
+
+            _anomalieService.AjouterAnomalie(
+                anomalie.NumeroCarte,
+                anomalie.Montant,
+                anomalie.TypeOperation,
+                anomalie.DateOperation,
+                anomalie.Devise,
+                anomalie.Motif
+            );
+
+            return CreatedAtAction(nameof(GetAllAnomalies), new { id = anomalie.Id }, anomalie);
         }
     }
 

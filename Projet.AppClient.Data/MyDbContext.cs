@@ -16,10 +16,12 @@ public class MyDbContext : DbContext
     public DbSet<CompteBancaire> ComptesBancaires { get; set; }
     public DbSet<TransactionBancaire> TransactionsBancaires { get; set; }
 
+    public DbSet<Admin> Admins { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
-            "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DotNetProjet;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DotNetProjetClient;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
     }
 
@@ -530,6 +532,16 @@ public class MyDbContext : DbContext
                 Devise = "USD"
             }
         );
+        #endregion
+
+        #region Admin
+        modelBuilder.Entity<Admin>().HasData(
+            new Admin
+            {
+                Login = "Admin",
+                MotDePasse = "12345"
+            }
+            );
         #endregion
 
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");

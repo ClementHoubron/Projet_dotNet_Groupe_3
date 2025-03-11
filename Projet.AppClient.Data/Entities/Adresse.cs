@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace Projet.AppClient.Data.Entities
         public string CodePostal { get; set; }
         public string Ville { get; set; }
 
-        
+        public override string ToString()
+        {
+            return $"{Libelle} {Complement} {CodePostal} {Ville}";
+        }
     }
     }

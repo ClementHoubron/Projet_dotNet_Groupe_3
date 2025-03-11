@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Projet.AppClient.Service\Projet.AppClient.Service.csproj" />
+    <ProjectReference Include="..\Projet.AppClient.View\Projet.AppClient.View.csproj" />
+  </ItemGroup>
+
 </Project>

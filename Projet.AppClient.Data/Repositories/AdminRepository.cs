@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Projet.AppClient.Data.Repositories
 {
-    public class ClientRepository: IRepository<Client>
+    public class AdminRepository: IRepository<Admin>
     {
-        public ClientRepository()
+        public AdminRepository()
         {
             InitializeDatabase();
         }
@@ -22,14 +22,27 @@ namespace Projet.AppClient.Data.Repositories
             context.Database.EnsureCreated();
         }
 
-        public async Task<List<Client>> GetAll()
+        public async Task<List<Admin>> GetAll()
         {
             using var context = new MyDbContext();
-            var clients = await context.Clients
+            var admins = await context.Admins
                                         .Include("ComptesBancaires")
-                                        .ToListAsync<Client>();
-            return clients;
+                                        .ToListAsync<Admin>();
+            return admins;
         }
+
+        public async Task<bool> Login(string login, string mdp)
+        {
+            using var context = new MyDbContext();
+            var admin = await context.Admins.FindAsync(login);
+            if (admin is null)
+            {
+                return false;
+            }
+            return admin.MotDePasse == mdp;
+
+        }
+
 
     }
 }

@@ -11,7 +11,7 @@ public class MyDbContext : DbContext
     public DbSet<ClientParticulier> ClientsParticuliers { get; set; }
     public DbSet<ClientProfessionnel> ClientsProfessionnels { get; set; }
     public DbSet<AdresseParticulier> AdressesParticulier { get; set; }
-    public DbSet<AdresseProfessionel> AdressesProfessionnels { get; set; }
+    public DbSet<AdresseProfessionnel> AdressesProfessionnels { get; set; }
     public DbSet<CompteBancaire> ComptesBancaires { get; set; }
     public DbSet<TransactionBancaire> TransactionsBancaires { get; set; }
     public DbSet<AnomalieTransaction> AnomaliesTransactions { get; set; }
@@ -158,8 +158,8 @@ public class MyDbContext : DbContext
             );
 
 
-        modelBuilder.Entity<AdresseProfessionel>().HasData(
-            new AdresseProfessionel
+        modelBuilder.Entity<AdresseProfessionnel>().HasData(
+            new AdresseProfessionnel
             {
                 Id = 1,
                 Libelle = "125, rue LaFayette",
@@ -170,8 +170,8 @@ public class MyDbContext : DbContext
             );
 
 
-        modelBuilder.Entity<AdresseProfessionel>().HasData(
-            new AdresseProfessionel
+        modelBuilder.Entity<AdresseProfessionnel>().HasData(
+            new AdresseProfessionnel
             {
                 Id = 2,
                 Libelle = "10, esplanade de la Défense",
@@ -182,8 +182,8 @@ public class MyDbContext : DbContext
             );
 
 
-        modelBuilder.Entity<AdresseProfessionel>().HasData(
-            new AdresseProfessionel
+        modelBuilder.Entity<AdresseProfessionnel>().HasData(
+            new AdresseProfessionnel
             {
                 Id = 3,
                 Libelle = "32, rue E. Renan",
@@ -193,8 +193,8 @@ public class MyDbContext : DbContext
             }
             );
 
-        modelBuilder.Entity<AdresseProfessionel>().HasData(
-            new AdresseProfessionel
+        modelBuilder.Entity<AdresseProfessionnel>().HasData(
+            new AdresseProfessionnel
             {
                 Id = 4,
                 Libelle = "24, esplanade de la Défense",
@@ -204,8 +204,8 @@ public class MyDbContext : DbContext
             }
             );
 
-        modelBuilder.Entity<AdresseProfessionel>().HasData(
-            new AdresseProfessionel
+        modelBuilder.Entity<AdresseProfessionnel>().HasData(
+            new AdresseProfessionnel
             {
                 Id = 5,
                 Libelle = "10, rue de la Paix",

@@ -1,0 +1,27 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Projet.Service;
+using Recap.Business.Services;
+
+namespace Projet.API.Serveur.Controllers
+{
+    [ApiController]
+    [Route("api/[client]")]
+    public class ClientController : Controller
+    {
+
+        private readonly ClientService clientService;
+
+        public ClientController()
+        {
+            this.clientService = new ClientService();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ClientDto>>> GetProducts()
+        {
+            var clients = await clientService.GetClients();
+            return Ok(clients);
+        }
+
+    }
+}

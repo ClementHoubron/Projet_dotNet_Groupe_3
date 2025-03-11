@@ -1,14 +1,22 @@
-﻿using System;
+﻿using Projet.Data.Entities;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-public class Class1
-{
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+
+
+namespace Projet.Service
+{ 
+    public abstract class ClientDto
+    {
+       
+        public int Id { get; set; }
+
+        public string Nom { get; set; }
+
+        public int AdressePostaleId { get; set; }
+        public AdresseParticulier AdressePostale { get; set; }
+
+        public string Email { get; set; }
+        public List<CompteBancaire> Comptes { get; set; } = new List<CompteBancaire>();
+    }
 }

@@ -24,7 +24,7 @@ namespace Projet.Data.Entities
         public StatutJuridique StatutJuridique { get; set; }
 
         public int AdresseSiegeId { get; set; }
-        public AdresseProfessionel AdresseSiege { get; set; }
+        public AdresseProfessionnel AdresseSiege { get; set; }
     }
     
 

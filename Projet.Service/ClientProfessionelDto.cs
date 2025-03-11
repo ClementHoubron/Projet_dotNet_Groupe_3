@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Projet.Data.Entities;
+using Projet.Service;
+using System;
+using System.ComponentModel.DataAnnotations;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-public class Class1
+
+namespace Projet.Service
 {
-	public Class1()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public class ClientProfessionnelDto : ClientDto
+    {
+        public string Siret { get; set; }
+        public StatutJuridique StatutJuridique { get; set; }
+
+        public int AdresseSiegeId { get; set; }
+        public AdresseProfessionnel AdresseSiege { get; set; }
+    }
 }

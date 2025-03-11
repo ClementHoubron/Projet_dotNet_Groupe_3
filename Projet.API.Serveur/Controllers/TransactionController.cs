@@ -21,11 +21,11 @@ using System.Collections.Generic;
             return Ok(_transactionService.GetAllTransactions());
         }
 
-        [HttpGet("compte/{compteId}")]
-        public ActionResult<IEnumerable<TransactionBancaireDto>> GetTransactionsByCompte(int compteId)
-        {
-            return Ok(_transactionService.GetTransactionsByCompte(compteId));
-        }
+        //[HttpGet("compte/{compteId}")]
+        //public ActionResult<IEnumerable<TransactionBancaireDto>> GetTransactionsByCompte(int compteId)
+        //{
+        //    return Ok(_transactionService.GetTransactionsByCompte(compteId));
+        //}
 
         [HttpPost]
         public ActionResult AjouterTransaction([FromBody] TransactionBancaireDto transactionDto)

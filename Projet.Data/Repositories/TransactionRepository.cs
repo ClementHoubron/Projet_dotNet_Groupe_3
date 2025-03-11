@@ -11,7 +11,6 @@ using System.Xml;
 
 public interface ITransactionRepository : IRepository<TransactionBancaire>
 {
-    IEnumerable<TransactionBancaire> GetTransactionsByAccountId(int compteId);
     void AjouterTransactionAvecVerification(TransactionBancaire transaction);
     void GenererFichierTransactions();
 }
@@ -30,10 +29,7 @@ public class TransactionRepository : IRepository<TransactionBancaire>, ITransact
         context.Database.EnsureCreated();
     }
 
-    public IEnumerable<TransactionBancaire> GetTransactionsByAccountId(int compteId)
-    {
-        return _context.TransactionsBancaires.Where(t => t.CompteBancaireId == compteId).ToList();
-    }
+
 
     public void AjouterTransactionAvecVerification(TransactionBancaire transaction)
     {

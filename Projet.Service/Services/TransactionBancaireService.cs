@@ -28,26 +28,25 @@ using Projet.Data.Entities;
                 TypeOperation = t.TypeOperation,
                 DateOperation = t.DateOperation,
                 Devise = t.Devise,
-                CompteBancaireId = t.CompteBancaireId,
                 EstValide = t.EstValide
             });
         }
 
-        public async Task<IEnumerable<TransactionBancaireDto>> GetTransactionsByCompte(int compteId)
-        {
-            var transactions = await Task.Run(() => _transactionRepository.GetTransactionsByAccountId(compteId));
-            return transactions.Select(t => new TransactionBancaireDto
-            {
-                Id = t.Id,
-                NumeroCompte = t.NumeroCompte,
-                Montant = t.Montant,
-                TypeOperation = t.TypeOperation,
-                DateOperation = t.DateOperation,
-                Devise = t.Devise,
-                CompteBancaireId = t.CompteBancaireId,
-                EstValide = t.EstValide
-            });
-        }
+        //public async Task<IEnumerable<TransactionBancaireDto>> GetTransactionsByCompte(string numCompte)
+        //{
+        //    var transactions = await Task.Run(() => _transactionRepository.get;
+        //    return transactions.Select(t => new TransactionBancaireDto
+        //    {
+        //        Id = t.Id,
+        //        NumeroCompte = t.NumeroCompte,
+        //        Montant = t.Montant,
+        //        TypeOperation = t.TypeOperation,
+        //        DateOperation = t.DateOperation,
+        //        Devise = t.Devise,
+        //        CompteBancaireId = t.CompteBancaireId,
+        //        EstValide = t.EstValide
+        //    });
+        //}
 
         public async Task AjouterTransaction(TransactionBancaireDto transactionDto)
         {
@@ -58,7 +57,6 @@ using Projet.Data.Entities;
                 TypeOperation = transactionDto.TypeOperation,
                 DateOperation = transactionDto.DateOperation,
                 Devise = transactionDto.Devise,
-                CompteBancaireId = transactionDto.CompteBancaireId,
                 EstValide = true
             };
 

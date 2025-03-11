@@ -29,16 +29,17 @@ public class MyDbContext : DbContext
     {
         //modelBuilder.Entity<Client>().UseTpcMappingStrategy();
 
+        #region AddresseParticulier
         modelBuilder.Entity<AdresseParticulier>().HasData(
-            new AdresseParticulier
-            {
-                Id = 1,
-                Libelle = "12, rue des Oliviers",
-                Complement = "",
-                Ville = "CRETEIL",
-                CodePostal = "94000"
-            }
-            );
+           new AdresseParticulier
+           {
+               Id = 1,
+               Libelle = "12, rue des Oliviers",
+               Complement = "",
+               Ville = "CRETEIL",
+               CodePostal = "94000"
+           }
+           );
 
         modelBuilder.Entity<AdresseParticulier>().HasData(
             new AdresseParticulier
@@ -157,17 +158,19 @@ public class MyDbContext : DbContext
             }
             );
 
+        #endregion
 
+        #region AdressePro
         modelBuilder.Entity<AdresseProfessionel>().HasData(
-            new AdresseProfessionel
-            {
-                Id = 1,
-                Libelle = "125, rue LaFayette",
-                Complement = "Digicode 1432",
-                Ville = "FONTENAY SOUS BOIS",
-                CodePostal = "94120"
-            }
-            );
+           new AdresseProfessionel
+           {
+               Id = 1,
+               Libelle = "125, rue LaFayette",
+               Complement = "Digicode 1432",
+               Ville = "FONTENAY SOUS BOIS",
+               CodePostal = "94120"
+           }
+           );
 
 
         modelBuilder.Entity<AdresseProfessionel>().HasData(
@@ -214,7 +217,9 @@ public class MyDbContext : DbContext
                 CodePostal = "75008"
             }
             );
+        #endregion
 
+        #region ClientParticulier
         modelBuilder.Entity<ClientParticulier>().HasData(
             new ClientParticulier
             {
@@ -244,7 +249,7 @@ public class MyDbContext : DbContext
 
         modelBuilder.Entity<ClientParticulier>().HasData(
             new ClientParticulier
-            { 
+            {
                 Id = 5,
                 Nom = "BERRIS",
                 Email = "berris@gmail.com",
@@ -293,20 +298,21 @@ public class MyDbContext : DbContext
                 AdressePostaleId = 6
 
             });
+        #endregion
 
-
+        #region ClientPro
         modelBuilder.Entity<ClientProfessionnel>().HasData(
-            new ClientProfessionnel
-            {
-                Id = 2,
-                Nom = "AXA",
-                Email = "info@axa.com",
-                Siret = "12548795641122",
-                StatutJuridique = StatutJuridique.SARL,
-                AdressePostaleId = 7,
-                AdresseSiegeId = 1
+           new ClientProfessionnel
+           {
+               Id = 2,
+               Nom = "AXA",
+               Email = "info@axa.com",
+               Siret = "12548795641122",
+               StatutJuridique = StatutJuridique.SARL,
+               AdressePostaleId = 7,
+               AdresseSiegeId = 1
 
-            });
+           });
 
 
         modelBuilder.Entity<ClientProfessionnel>().HasData(
@@ -337,7 +343,7 @@ public class MyDbContext : DbContext
 
         modelBuilder.Entity<ClientProfessionnel>().HasData(
             new ClientProfessionnel
-            { 
+            {
                 Id = 8,
                 Nom = "ZARA",
                 Email = "info@zara.com",
@@ -360,6 +366,112 @@ public class MyDbContext : DbContext
                 AdresseSiegeId = 5
 
             });
+        #endregion
+
+        #region CompteBancaire
+
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 4832",
+                DateOuverture = new DateTime(2010, 10, 24),
+                Solde = 2000,
+                ClientId = 1
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 2949",
+                DateOuverture = new DateTime(2015, 2, 15),
+                Solde = 500,
+                ClientId = 2
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 5200",
+                DateOuverture = new DateTime(2012, 5, 6),
+                Solde = 4000,
+                ClientId = 3
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 1783",
+                DateOuverture = new DateTime(2014, 2, 15),
+                Solde = 0,
+                ClientId = 4
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 0002",
+                DateOuverture = new DateTime(2018, 12, 1),
+                Solde = -1000,
+                ClientId = 5
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 0102",
+                DateOuverture = new DateTime(2012, 10, 3),
+                Solde = 2000,
+                ClientId = 6
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 0202",
+                DateOuverture = new DateTime(2010, 8, 24),
+                Solde = 2000,
+                ClientId = 7
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 0302",
+                DateOuverture = new DateTime(2014, 2, 24),
+                Solde = 2000,
+                ClientId = 8
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 9902",
+                DateOuverture = new DateTime(2010, 10, 24),
+                Solde = 2000,
+                ClientId = 9
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 5948",
+                DateOuverture = new DateTime(2012, 4, 17),
+                Solde = 2000,
+                ClientId = 10
+            }
+            );
+        modelBuilder.Entity<CompteBancaire>().HasData(
+            new CompteBancaire
+            {
+                NumeroCompte = "4974 0185 0223 6817",
+                DateOuverture = new DateTime(2010, 4, 22),
+                Solde = 2000,
+                ClientId = 11
+            }
+            );
+
+
+        #endregion
 
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();

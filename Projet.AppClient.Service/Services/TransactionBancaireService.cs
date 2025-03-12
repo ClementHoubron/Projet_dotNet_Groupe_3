@@ -7,80 +7,65 @@ using Newtonsoft.Json;
 using Projet.AppClient.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Projet.AppClient.Data.Repositories;
+using AutoMapper;
 
 namespace Projet.AppClient.Service
 {
     public class TransactionBancaireService
     {
         private readonly TransactionRepository _transactionRepository;
+        private readonly IMapper _mapper;
 
-        public TransactionBancaireService(TransactionRepository transactionRepository)
+        public TransactionBancaireService()
         {
-            _transactionRepository = transactionRepository;
+            _transactionRepository = new TransactionRepository();
+            _mapper = MappingConfig.Mapper;
         }
 
-        public async Task<IEnumerable<TransactionBancaireDto>> GetAllTransactions()
+        public async Task<List<TransactionBancaireDto>> GetAllTransactions()
         {
-            var transactions = await _transactionRepository.GetAll();
-            return transactions.Select(t => new TransactionBancaireDto
-            {
-                Id = t.Id,
-                //NumeroCarte = t.NumeroCarte,
-                Montant = t.Montant,
-                TypeOperation = t.TypeOperation,
-                DateOperation = t.DateOperation,
-                Devise = t.Devise,
-                EstValide = t.EstValide
-            });
+            var transactionEntities = await _transactionRepository.GetAll();
+            var transactionDtos = transactionEntities.Select(trans => _mapper.Map<TransactionBancaireDto>(trans)).ToList<TransactionBancaireDto>();
+            return transactionDtos;
+        }
+        public async Task<List<TransactionBancaireDto>> GetAllTransactionsByNumCarte(string numCarte)
+        {
+            var transactionEntities = await _transactionRepository.GetAllByNumCarte(numCarte);
+            var transactionDtos = transactionEntities.Select(trans => _mapper.Map<TransactionBancaireDto>(trans)).ToList<TransactionBancaireDto>();
+            return transactionDtos;
+        }
+        public async Task<List<TransactionBancaireDto>> GetAllTransactionsByNumCompte(string numCompte)
+        {
+            var transactionEntities = await _transactionRepository.GetAllByNumCompte(numCompte);
+            var transactionDtos = transactionEntities.Select(trans => _mapper.Map<TransactionBancaireDto>(trans)).ToList<TransactionBancaireDto>();
+            return transactionDtos;
+        }
+        public async Task<List<TransactionBancaireDto>> GetAllTransactionsByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)
+        {
+            var transactionEntities = await _transactionRepository.GetAllByNumCompteForPeriod(numCompte, before, after);
+            var transactionDtos = transactionEntities.Select(trans => _mapper.Map<TransactionBancaireDto>(trans)).ToList<TransactionBancaireDto>();
+            return transactionDtos;
         }
 
         public async Task AjouterTransaction(TransactionBancaireDto transactionDto)
         {
             var transaction = new TransactionBancaire
             {
-               // NumeroCarte = transactionDto.NumeroCarte,
+                NumeroCarte = transactionDto.NumeroCarte,
                 Montant = transactionDto.Montant,
                 TypeOperation = transactionDto.TypeOperation,
                 DateOperation = transactionDto.DateOperation,
                 Devise = transactionDto.Devise,
-                EstValide = true
             };
-
-            if (!ValiderNumeroCarte(transaction.NumeroCarte))
-            {
-                Console.WriteLine("TODO");
-            }
-            else
-            {
-                _transactionRepository.AjouterTransactionAvecVerification(transaction);
-            }
+            _transactionRepository.AjouterTransactionAvecVerification(transaction);
         }
 
         public async Task GenererFichierTransactions()
         {
             var transactionsValides = await _transactionRepository.GetAll();
-            var transactionsFiltrees = transactionsValides.Where(t => t.EstValide).ToList();
 
-            string json = JsonConvert.SerializeObject(transactionsFiltrees, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(transactionsValides, Formatting.Indented);
             await File.WriteAllTextAsync("transactions_validees.json", json);
-        }
-
-        private bool ValiderNumeroCarte(string numeroCarte)
-        {
-            int sum = 0;
-            bool alternate = false;
-            for (int i = numeroCarte.Length - 1; i >= 0; i--)
-            {
-                int n = int.Parse(numeroCarte[i].ToString());
-                if (alternate)
-                {
-                    n *= 2;
-                    if (n > 9) n -= 9;
-                }
-                sum += n;
-                alternate = !alternate;
-            }
-            return (sum % 10 == 0);
         }
     }
 }

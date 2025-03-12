@@ -14,6 +14,7 @@ public class MyDbContext : DbContext
     public DbSet<AdresseParticulier> AdressesParticulier { get; set; }
     public DbSet<AdresseProfessionnel> AdressesProfessionnels { get; set; }
     public DbSet<CompteBancaire> ComptesBancaires { get; set; }
+    public DbSet<CarteBancaire> CartesBancaires { get; set; }
     public DbSet<TransactionBancaire> TransactionsBancaires { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

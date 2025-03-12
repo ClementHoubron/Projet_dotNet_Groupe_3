@@ -10,7 +10,7 @@ namespace Projet.AppClient.Data.Entities
         public string TypeOperation { get; set; }
         public DateTime DateOperation { get; set; }
         public string Devise { get; set; }
+        public string CompteBancaireNumeroCompte { get; set; }
         public CompteBancaire CompteBancaire { get; set; }
-        public bool EstValide { get; set; } = true;
     }
 }

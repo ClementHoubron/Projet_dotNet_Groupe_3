@@ -1,0 +1,45 @@
+﻿login:
+
+1
+Admin
+12345
+
+ajout client particulier ok :
+4
+ROGER
+DENIS
+13, rue du foin
+Bat. D
+PARIS
+90000
+denis@gmail.com
+M
+07/07/1977
+
+ajout client professionnel ok : 
+
+5
+TOTOJOUJOUX 
+34, rue du Commerce
+Batiment 3
+Strasbourg
+67000
+info@ttjj.com
+43543295641122
+SA
+34, rue du Commerce
+Batiment 3
+Strasbourg
+67000
+
+ajout client particulier nok  (Pas de nom):
+4
+
+DENISE
+13, rue du foin
+Bat. D
+PARIS
+90000
+denise@gmail.com
+F
+09/09/1979

@@ -371,6 +371,7 @@ public class MyDbContext : DbContext
             });
         #endregion
 
+
         #region CompteBancaire
 
         modelBuilder.Entity<CompteBancaire>().HasData(
@@ -548,6 +549,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
         modelBuilder.Entity<AdresseParticulier>().ToTable<AdresseParticulier>("AdressesParticulier");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();
+        modelBuilder.Entity<Client>().Property(t => t.Id).ValueGeneratedOnAdd();
     }
 
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projet.AppClient.Service
 {
-    class AdresseProfessionnelDto : AdresseDto
+    public class AdresseProfessionnelDto : AdresseDto
     {
     }
 }

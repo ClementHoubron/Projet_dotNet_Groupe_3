@@ -47,5 +47,43 @@ namespace Projet.AppClient.Data.Repositories
 
         }
 
+        public async Task<int> AddClientParticulier(ClientParticulier cli)
+        {
+            using var context = new MyDbContext();
+            context.ClientsParticuliers.Add(cli);
+            var cliSaved = await context.SaveChangesAsync();
+            return cliSaved;          
+        }
+
+        public async Task<int> AddClientProfessionnel(ClientProfessionnel cli)
+        {
+            using var context = new MyDbContext();
+            context.ClientsProfessionnels.Add(cli);
+            var cliSaved = await context.SaveChangesAsync();
+            return cliSaved;
+        }
+
+        public async Task<ClientParticulier?> GetByNomPrenom(string nom, string prenom)
+        {
+            using var context = new MyDbContext();
+            var cli = await context.ClientsParticuliers
+                                        .Where<ClientParticulier>(c => c.Nom.ToUpper().Equals(nom.ToUpper()) && c.Prenom.ToUpper().Equals(prenom.ToUpper()))
+                                        .Include("ComptesBancaires")
+                                        .Include(c => c.AdressePostale)
+                                        .SingleOrDefaultAsync<ClientParticulier>();
+            return cli;
+        }
+
+        public async Task<ClientProfessionnel?> GetByNomSiret(string nom, string siret)
+        {
+            using var context = new MyDbContext();
+            var cli = await context.ClientsProfessionnels
+                                        .Where<ClientProfessionnel>(c => c.Nom.ToUpper().Equals(nom.ToUpper()) && c.Siret.ToUpper().Equals(siret.ToUpper()))
+                                        .Include("ComptesBancaires")
+                                        .Include(c => c.AdressePostale)
+                                        .Include(c => c.AdresseSiege)
+                                        .SingleOrDefaultAsync<ClientProfessionnel>();
+            return cli;
+        }
     }
 }

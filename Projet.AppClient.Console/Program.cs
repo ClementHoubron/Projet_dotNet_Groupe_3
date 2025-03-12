@@ -16,9 +16,9 @@ internal class Program
         {
             Console.Clear();
             Console.WriteLine(" 1 - Afficher tous les clients");
-            //Console.WriteLine(" 2 - Afficher toutes les categories");
-            //Console.WriteLine(" 3 - Rechercher une categorie via son Id");
-            //Console.WriteLine(" 4 - Afficher les produits");
+            Console.WriteLine(" 2 - Afficher un client particulier avec son nom et son prenom");
+            Console.WriteLine(" 3 - Afficher un client professionnel avec son nom et son siret");
+            Console.WriteLine(" 4 - Ajouter un client particulier");
 
             Console.WriteLine(" 0 - Quitter");
 
@@ -27,20 +27,67 @@ internal class Program
                 case "1":
                     controllerClient.ShowClients();
                     break;
-                //case "2":
-                //    controllerCat.ShowCategories();
-                //    break;
+                case "2":
+                    Console.WriteLine("Saisir le nom du client");
+                    string nom = Console.ReadLine();
+                    Console.WriteLine("Saisir le prenom du client");
+                    string prenom = Console.ReadLine();
+                    controllerClient.GetClientParticulier(nom, prenom);
+                    break;
 
-                //case "3":
-                //    Console.WriteLine("Saisir l'id à rechercher : ");
-                //    int id = Int32.Parse(Console.ReadLine());
-                //    controllerCat.GetCategory(id);
-                //    break;
+                case "3":
+                    Console.WriteLine("Saisir le nom du client");
+                    string nomPro = Console.ReadLine();
+                    Console.WriteLine("Saisir le SIRET du client");
+                    string siret = Console.ReadLine();
+                    controllerClient.GetClientProfessionnel(nomPro, siret);
+                    break;
 
-                //case "4":
-                //    controllerProd.ShowProducts();
-                //    break;
+                case "4":
+                    try
+                    {
+                        var cliDto = viewClient.GetClientParticulierDetails();
+                        if (cliDto != null)
+                        {
+                            Console.WriteLine("Saisie client ok");
 
+                            controllerClient.AddClientParticulier(cliDto);
+
+                        }
+                        else
+                        {
+                            throw new Exception("Saisie client vide.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erreure saisie client : " + e.Message);
+                    }
+
+                
+                    break;
+
+                case "5":
+                    try
+                    {
+                        var cliProDto = viewClient.GetClientProfessionnelDetails();
+                        if (cliProDto != null)
+                        {
+                            Console.WriteLine("Saisie client ok");
+                       
+                                controllerClient.AddClientProfessionnel(cliProDto);
+                 
+                        }
+                        else
+                        {
+                            throw new Exception("Saise client vide.");
+                    }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erreure saisie client : " + e.Message);
+                    }
+                    break;
 
                 case "0":
                     reponse = false;

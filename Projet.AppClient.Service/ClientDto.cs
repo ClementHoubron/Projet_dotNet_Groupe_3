@@ -11,6 +11,7 @@ namespace Projet.AppClient.Service
        
         public int Id { get; set; }
 
+        [Required(ErrorMessage="Nom requis.")]
         public string Nom { get; set; }
 
         public int AdressePostaleId { get; set; }

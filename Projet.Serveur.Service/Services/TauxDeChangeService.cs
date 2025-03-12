@@ -12,23 +12,23 @@ namespace Projet.Serveur.Service.Services
         Task<decimal> GetTauxDeChangeAsync(string devise);
     }
 
-    public class ExchangeRateService : ITauxDeChangeService
+    public class TauxDeChangeService
     {
         private readonly HttpClient _httpClient;
 
-        public ExchangeRateService(HttpClient httpClient)
+        public TauxDeChangeService()
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
         }
 
         public async Task<decimal> GetTauxDeChangeAsync(string devise)
         {
             if (devise == "EUR") return 1m;
 
-            var response = await _httpClient.GetStringAsync($"https://api.exchangerate-api.com/v4/latest/EUR");
+            var response = await _httpClient.GetStringAsync($"https://api.exchangerate-api.com/v4/latest/{devise}");
             var data = JsonSerializer.Deserialize<Dictionary<string, object>>(response);
             var rates = JsonSerializer.Deserialize<Dictionary<string, decimal>>(data["rates"].ToString());
-            return rates.ContainsKey(devise) ? rates[devise] : 1m;
+            return rates.ContainsKey("EUR") ? rates["EUR"] : 1m;
         }
     }
 }

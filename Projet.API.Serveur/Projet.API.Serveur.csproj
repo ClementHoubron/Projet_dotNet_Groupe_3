@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Projet.AppClient.Service\Projet.AppClient.Service.csproj" />
+    <ProjectReference Include="..\Projet.Serveur.Data\Projet.Serveur.Data.csproj" />
+    <ProjectReference Include="..\Projet.Serveur.Service\Projet.Serveur.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,28 +12,36 @@ namespace Projet.Serveur.Data.Repositories
 
     public class TransactionRepository : ITransactionRepository
     {
-        private readonly MyDbContext _context;
 
-        public TransactionRepository(MyDbContext context)
+        public TransactionRepository()
         {
-            _context = context;
+            InitializeDatabase();
+        }
+
+        private void InitializeDatabase()
+        {
+            using var context = new MyDbContext();
+            context.Database.EnsureCreated();
         }
 
         public void AddTransaction(TransactionBancaire transaction)
         {
-            _context.Transactions.Add(transaction);
+            using var _context = new MyDbContext();
+            _context.TransactionBancaire.Add(transaction);
             _context.SaveChanges();
         }
 
         public IEnumerable<TransactionBancaire> GetValidTransactions()
         {
-            return _context.Transactions.Where(t => t.EstValide).ToList();
+            using var _context = new MyDbContext();
+            return _context.TransactionBancaire.Where(t => t.EstValide).ToList();
         }
 
 
         public IEnumerable<TransactionBancaire> GetAnomalies()
         {
-            return _context.Transactions.Where(t => !t.EstValide).ToList();
+            using var _context = new MyDbContext();
+            return _context.TransactionBancaire.Where(t => !t.EstValide).ToList();
         }
     }
 }

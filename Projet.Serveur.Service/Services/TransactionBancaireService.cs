@@ -6,31 +6,23 @@ using System.Timers;
 
 namespace Projet.Serveur.Service.Services
 {
-    public interface ITransactionService
+
+    public class TransactionService
     {
-        Task ProcessTransaction(TransactionDto transactionDto);
-        Task<IEnumerable<TransactionBancaire>> GetValidTransactionsAsync();
-        
-        void ExportTransactions();
-        void ExportAnomalies();
-    }
-
-    public class TransactionService : ITransactionService
-    {
-        private readonly ITransactionRepository _repository;
-        private readonly ITauxDeChangeService _tauxDeChangeService;
+        private readonly TransactionRepository _repository;
+        private readonly TauxDeChangeService _tauxDeChangeService;
 
 
-        public TransactionService(ITransactionRepository repository, ITauxDeChangeService tauxDeChangeService)
+        public TransactionService()
         {
-            _repository = repository;
-            _tauxDeChangeService = tauxDeChangeService;
+            _repository = new TransactionRepository();
+            _tauxDeChangeService = new TauxDeChangeService();
         }
 
         public async Task ProcessTransaction(TransactionDto transactionDto)
         {
             bool isValidCard = LuhnValidateur.Validate(transactionDto.NumeroCarte);
-            bool isValidOperation = new HashSet<string> { "Retrait DAB", "Facture CB", "Dépôt Guichet" }
+            bool isValidOperation = new HashSet<string> { "Retrait DAB", "Facture CB", "Depot Guichet" }
                                         .Contains(transactionDto.TypeOperation);
             bool isValid = isValidCard && isValidOperation;
             var transaction = new TransactionBancaire
@@ -84,10 +76,10 @@ namespace Projet.Serveur.Service.Services
     }
     public class ScheduledExportService
     {
-        private readonly ITransactionService _transactionService;
+        private readonly TransactionService _transactionService;
         private readonly System.Timers.Timer _timer;
 
-        public ScheduledExportService(ITransactionService transactionService)
+        public ScheduledExportService(TransactionService transactionService)
         {
             _transactionService = transactionService;
             _timer = new System.Timers.Timer(86400000);

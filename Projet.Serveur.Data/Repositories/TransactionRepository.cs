@@ -30,6 +30,7 @@ namespace Projet.Serveur.Data.Repositories
             return _context.Transactions.Where(t => t.EstValide).ToList();
         }
 
+
         public IEnumerable<TransactionBancaire> GetAnomalies()
         {
             return _context.Transactions.Where(t => !t.EstValide).ToList();

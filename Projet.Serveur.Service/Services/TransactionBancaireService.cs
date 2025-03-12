@@ -8,7 +8,9 @@ namespace Projet.Serveur.Service.Services
 {
     public interface ITransactionService
     {
-        void ProcessTransaction(TransactionDto transactionDto);
+        Task ProcessTransaction(TransactionDto transactionDto);
+        Task<IEnumerable<TransactionBancaire>> GetValidTransactionsAsync();
+        
         void ExportTransactions();
         void ExportAnomalies();
     }
@@ -16,14 +18,21 @@ namespace Projet.Serveur.Service.Services
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository _repository;
+        private readonly ITauxDeChangeService _tauxDeChangeService;
 
-        public TransactionService(ITransactionRepository repository)
+
+        public TransactionService(ITransactionRepository repository, ITauxDeChangeService tauxDeChangeService)
         {
             _repository = repository;
+            _tauxDeChangeService = tauxDeChangeService;
         }
 
-        public void ProcessTransaction(TransactionDto transactionDto)
+        public async Task ProcessTransaction(TransactionDto transactionDto)
         {
+            bool isValidCard = LuhnValidateur.Validate(transactionDto.NumeroCarte);
+            bool isValidOperation = new HashSet<string> { "Retrait DAB", "Facture CB", "Dépôt Guichet" }
+                                        .Contains(transactionDto.TypeOperation);
+            bool isValid = isValidCard && isValidOperation;
             var transaction = new TransactionBancaire
             {
                 NumeroCarte = transactionDto.NumeroCarte,
@@ -31,22 +40,44 @@ namespace Projet.Serveur.Service.Services
                 TypeOperation = transactionDto.TypeOperation,
                 DateOperation = transactionDto.DateOperation,
                 Devise = transactionDto.Devise,
-                EstValide = LuhnValidateur.Validate(transactionDto.NumeroCarte)
+                EstValide = isValid,
             };
 
             _repository.AddTransaction(transaction);
         }
-
-        public void ExportTransactions()
+        public async Task<IEnumerable<TransactionBancaire>> GetValidTransactionsAsync()
         {
-            var transactions = _repository.GetValidTransactions();
+            return _repository.GetValidTransactions();
+        }
+
+        public async void ExportTransactions()
+        {
+            var transactions = _repository.GetValidTransactions().Select(async t => new
+            {
+                t.NumeroCarte,
+                t.Montant,
+                t.TypeOperation,
+                t.DateOperation,
+                t.Devise,
+                ExchangeRate = t.Devise != "EUR" ? await _tauxDeChangeService.GetTauxDeChangeAsync(t.Devise) : 1.0m
+            }).Select(t => t.Result);
+
             string json = JsonSerializer.Serialize(transactions, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText("validated_transactions.json", json);
         }
+       
 
         public void ExportAnomalies()
         {
-            var anomalies = _repository.GetAnomalies();
+            var anomalies = _repository.GetAnomalies().Select(t => new
+            {
+                t.NumeroCarte,
+                t.Montant,
+                t.TypeOperation,
+                t.DateOperation,
+                t.Devise
+            });
+
             string json = JsonSerializer.Serialize(anomalies, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText("anomalies.json", json);
         }
@@ -68,7 +99,6 @@ namespace Projet.Serveur.Service.Services
         private void RunExport(object sender, ElapsedEventArgs e)
         {
             _transactionService.ExportTransactions();
-            _transactionService.ExportAnomalies();
             Console.WriteLine("Export JSON quotidien effectué à : " + DateTime.Now);
         }
     }

@@ -15,5 +15,7 @@ namespace Projet.AppClient.Data.Entities
         public decimal Solde { get; set; } = 1000.00m;
         public int ClientId { get; set; }
         public Client Client { get; set; }
+        public ICollection<CarteBancaire> CartesBancaire { get; set; }
+        public ICollection<TransactionBancaire> TransactionBancaires { get; set; }
     }
 }

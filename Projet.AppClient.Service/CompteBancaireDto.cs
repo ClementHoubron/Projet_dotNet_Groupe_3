@@ -13,5 +13,7 @@ public class CompteBancaireDto
     public decimal Solde { get; set; } = 1000.00m;
     public int ClientId { get; set; }
     public Client Client { get; set; }
+    public ICollection<CarteBancaire> CartesBancaires { get; set; }
+    public ICollection<TransactionBancaire> TransactionsBancaires { get; set; }
 
 }

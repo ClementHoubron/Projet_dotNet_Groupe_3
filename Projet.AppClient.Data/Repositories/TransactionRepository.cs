@@ -71,19 +71,47 @@ namespace Projet.AppClient.Data.Repositories
 
         public void GenererFichierTransactions()
         {
-            var transactionsValides = _context.TransactionsBancaires.Where(t => t.EstValide).ToList();
+            var transactionsValides = _context.TransactionsBancaires.ToList();
             string json = JsonConvert.SerializeObject(transactionsValides, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText("transactions_validees.json", json);
         }
 
-        public Task<List<TransactionBancaire>> GetAll()
+        public async Task<List<TransactionBancaire>> GetAll()
         {
-            throw new NotImplementedException();
+            using var context = new MyDbContext();
+            var transactions = await _context.TransactionsBancaires
+                                             .Include("ComptesBancaires")
+                                             .ToListAsync<TransactionBancaire>();
+            return transactions;
         }
 
-        public IEnumerable<TransactionBancaire> GetTransactionsByCompte(string carteNum)
+        public async Task<List<TransactionBancaire>> GetAllByNumCarte(string numCarte)
         {
-            return _context.TransactionsBancaires.Where(t => t.NumeroCarte == carteNum).ToList();
+            using var context = new MyDbContext();
+            var transactions = await _context.TransactionsBancaires
+                                             .Where<TransactionBancaire>(t => t.NumeroCarte == numCarte)
+                                             .Include("ComptesBancaires")
+                                             .ToListAsync<TransactionBancaire>();
+            return transactions;
+        }
+        public async Task<List<TransactionBancaire>> GetAllByNumCompte(string numCompte)
+        {
+            using var context = new MyDbContext();
+            var transactions = await _context.TransactionsBancaires
+                                             .Include("ComptesBancaires")
+                                             .Where<TransactionBancaire>(t => t.CompteBancaireNumeroCompte == numCompte)
+                                             .ToListAsync<TransactionBancaire>();
+            return transactions;
+        }
+
+        public async Task<List<TransactionBancaire>> GetAllByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)
+        {
+            using var context = new MyDbContext();
+            var transactions = await _context.TransactionsBancaires
+                                             .Include("ComptesBancaires")
+                                             .Where<TransactionBancaire>(t => t.CompteBancaireNumeroCompte == numCompte && (t.DateOperation >= before && t.DateOperation <= after))
+                                             .ToListAsync<TransactionBancaire>();
+            return transactions;
         }
 
     }

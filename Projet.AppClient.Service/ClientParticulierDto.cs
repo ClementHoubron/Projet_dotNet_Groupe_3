@@ -13,5 +13,10 @@ namespace Projet.AppClient.Service
         [StringLength(50, MinimumLength = 1)]
         public string Prenom { get; set; }
         public Sexe Sexe { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"{DateNaissance} {Prenom} {Sexe}";
+        }
     }
 }

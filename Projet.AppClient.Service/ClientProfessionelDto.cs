@@ -13,5 +13,10 @@ namespace Projet.AppClient.Service
 
         public int AdresseSiegeId { get; set; }
         public AdresseProfessionnel AdresseSiege { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString() + $" {Siret} {StatutJuridique} {AdresseSiege.ToString()}";
+        }
     }
 }

@@ -545,6 +545,7 @@ public class MyDbContext : DbContext
         #endregion
 
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
+        modelBuilder.Entity<AdresseParticulier>().ToTable<AdresseParticulier>("AdressesParticulier");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();
     }
 

@@ -22,7 +22,7 @@ namespace Projet.AppClient.Service
         public override string ToString()
         {
             // return $"{Id:000} {Nom} {AdressePostale.ToString()} {Email}";
-            return $"{Id:000} {Nom} {Email}";
+            return $"{Id:000} {Nom} {AdressePostale.ToString()} {Email}";
         }
     }
 }

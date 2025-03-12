@@ -9,28 +9,26 @@ namespace Projet.Serveur.Service.Services
 {
     public interface ITauxDeChangeService
     {
-        Task<decimal> ConvertToEuro(string devise);
-
+        Task<decimal> GetTauxDeChangeAsync(string devise);
     }
-    public class TauxDeChangeService : ITauxDeChangeService
 
+    public class ExchangeRateService : ITauxDeChangeService
     {
         private readonly HttpClient _httpClient;
 
-        public TauxDeChangeService(HttpClient httpClient)
+        public ExchangeRateService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<decimal> ConvertToEuro(string devise)
+        public async Task<decimal> GetTauxDeChangeAsync(string devise)
         {
-            if (devise == "EUR") return 1.0m;
+            if (devise == "EUR") return 1m;
 
-            var response = await _httpClient.GetStreamAsync($"https://api.exchangerate-api.com/v4/latest/{devise}");
-            var rates = JsonSerializer.Deserialize<Dictionary<string, object>>(response);
-            var rate = Convert.ToDecimal(((JsonElement)rates["rates"]).GetProperty("EUR").GetDecimal());
-
-            return rate;
+            var response = await _httpClient.GetStringAsync($"https://api.exchangerate-api.com/v4/latest/EUR");
+            var data = JsonSerializer.Deserialize<Dictionary<string, object>>(response);
+            var rates = JsonSerializer.Deserialize<Dictionary<string, decimal>>(data["rates"].ToString());
+            return rates.ContainsKey(devise) ? rates[devise] : 1m;
         }
     }
 }

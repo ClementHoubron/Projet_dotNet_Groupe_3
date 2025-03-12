@@ -8,7 +8,9 @@ namespace Projet.Serveur.Service.Services
 {
     public interface ITransactionService
     {
-        void ProcessTransaction(TransactionDto transactionDto);
+        Task ProcessTransaction(TransactionDto transactionDto);
+        Task<IEnumerable<TransactionBancaire>> GetValidTransactionsAsync();
+        
         void ExportTransactions();
         void ExportAnomalies();
     }
@@ -25,16 +27,12 @@ namespace Projet.Serveur.Service.Services
             _tauxDeChangeService = tauxDeChangeService;
         }
 
-        public async void ProcessTransaction(TransactionDto transactionDto)
+        public async Task ProcessTransaction(TransactionDto transactionDto)
         {
-            decimal tauxDeChange = 1.0m;
-            decimal montantConverti = transactionDto.Montant;
-
-            if (transactionDto.Devise != "EUR")
-            {
-                tauxDeChange = await _tauxDeChangeService.ConvertToEuro(transactionDto.Devise);
-                montantConverti = transactionDto.Montant * tauxDeChange;
-            }
+            bool isValidCard = LuhnValidateur.Validate(transactionDto.NumeroCarte);
+            bool isValidOperation = new HashSet<string> { "Retrait DAB", "Facture CB", "Dépôt Guichet" }
+                                        .Contains(transactionDto.TypeOperation);
+            bool isValid = isValidCard && isValidOperation;
             var transaction = new TransactionBancaire
             {
                 NumeroCarte = transactionDto.NumeroCarte,
@@ -42,10 +40,14 @@ namespace Projet.Serveur.Service.Services
                 TypeOperation = transactionDto.TypeOperation,
                 DateOperation = transactionDto.DateOperation,
                 Devise = transactionDto.Devise,
-                EstValide = LuhnValidateur.Validate(transactionDto.NumeroCarte),
+                EstValide = isValid,
             };
 
             _repository.AddTransaction(transaction);
+        }
+        public async Task<IEnumerable<TransactionBancaire>> GetValidTransactionsAsync()
+        {
+            return _repository.GetValidTransactions();
         }
 
         public async void ExportTransactions()
@@ -57,7 +59,7 @@ namespace Projet.Serveur.Service.Services
                 t.TypeOperation,
                 t.DateOperation,
                 t.Devise,
-                ExchangeRate = t.Devise != "EUR" ? await _tauxDeChangeService.ConvertToEuro(t.Devise) : 1.0m
+                ExchangeRate = t.Devise != "EUR" ? await _tauxDeChangeService.GetTauxDeChangeAsync(t.Devise) : 1.0m
             }).Select(t => t.Result);
 
             string json = JsonSerializer.Serialize(transactions, new JsonSerializerOptions { WriteIndented = true });

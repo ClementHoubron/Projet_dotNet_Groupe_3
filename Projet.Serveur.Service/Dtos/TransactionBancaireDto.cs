@@ -11,4 +11,6 @@ public class TransactionDto
     public string TypeOperation { get; set; }
     public DateTime DateOperation { get; set; }
     public string Devise { get; set; }
+    public decimal TauxDeChange { get; set; }
+
 }

@@ -25,10 +25,26 @@ namespace Projet.AppClient.Data.Repositories
         public async Task<List<Client>> GetAll()
         {
             using var context = new MyDbContext();
-            var products = await context.Clients
-                                        .Include("ComptesBancaires")
-                                        .ToListAsync<Client>();
-            return products;
+            //var clients = await context.Clients
+            //                            .Include("ComptesBancaires")
+            //                            .Include(c => c.AdressePostale)
+            //                            .ToListAsync<Client>();
+            //return clients;
+            var clientsParticuliers = await context.ClientsParticuliers
+                                            .Include("ComptesBancaires")
+                                            .Include(c => c.AdressePostale)
+                                            .ToListAsync<ClientParticulier>();
+
+            var ClientsPro = await context.ClientsProfessionnels
+                                            .Include("ComptesBancaires")
+                                            .Include(c => c.AdressePostale)
+                                            .Include(c => c.AdresseSiege)
+                                            .ToListAsync<ClientProfessionnel>();
+            var clientsParticuliersList = clientsParticuliers.Cast<Client>().ToList();
+            var clientsProList = ClientsPro.Cast<Client>().ToList();
+            clientsParticuliersList.AddRange(clientsProList);
+            return clientsParticuliersList;
+
         }
 
     }

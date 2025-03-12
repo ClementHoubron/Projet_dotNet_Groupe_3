@@ -18,5 +18,11 @@ namespace Projet.AppClient.Service
 
         public string Email { get; set; }
         public ICollection<CompteBancaire> ComptesBancaires { get; set; }
+
+        public override string ToString()
+        {
+            // return $"{Id:000} {Nom} {AdressePostale.ToString()} {Email}";
+            return $"{Id:000} {Nom} {AdressePostale.ToString()} {Email}";
+        }
     }
 }

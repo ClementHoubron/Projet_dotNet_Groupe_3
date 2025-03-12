@@ -1,5 +1,6 @@
 ﻿using Projet.AppClient.Controller;
 using Projet.AppClient.View;
+using System.Text;
 
 internal class Program
 {
@@ -50,6 +51,35 @@ internal class Program
         }
     }
 
+    private static string GetPassword()
+    {
+        StringBuilder input = new StringBuilder();
+        while (true)
+        {
+            int x = Console.CursorLeft;
+            int y = Console.CursorTop;
+            ConsoleKeyInfo key = Console.ReadKey(true);
+            if (key.Key == ConsoleKey.Enter)
+            {
+                Console.WriteLine();
+                break;
+            }
+            if (key.Key == ConsoleKey.Backspace && input.Length > 0)
+            {
+                input.Remove(input.Length - 1, 1);
+                Console.SetCursorPosition(x - 1, y);
+                Console.Write(" ");
+                Console.SetCursorPosition(x - 1, y);
+            }
+            else if (key.Key != ConsoleKey.Backspace)
+            {
+                input.Append(key.KeyChar);
+                Console.Write("*");
+            }
+        }
+        return input.ToString();
+    }
+
     private static void Main(string[] args)
     {
         var controllerAdmin = new AdminController();
@@ -68,7 +98,7 @@ internal class Program
                     Console.WriteLine("Saisir le login");
                     string login = Console.ReadLine();
                     Console.WriteLine("Saisir le mot de passe");
-                    string mdp = Console.ReadLine();
+                    string mdp = GetPassword();
                     bool loginOk = controllerAdmin.Login(login, mdp).Result;
                     if (loginOk)
                     {

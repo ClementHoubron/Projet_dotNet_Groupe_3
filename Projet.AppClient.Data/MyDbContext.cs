@@ -477,62 +477,62 @@ public class MyDbContext : DbContext
         #endregion
 
         #region TransactionsBancaires
-        modelBuilder.Entity<TransactionBancaire>().HasData(
-            new TransactionBancaire
-            {
-                Id = 1,
-                NumeroCarte = "4974 0185 0223 4832",
-                Montant = 150.75m,
-                TypeOperation = "Retrait",
-                DateOperation = new DateTime(2024, 3, 1),
-                Devise = "EUR"
-            },
-            new TransactionBancaire
-            {
-                Id = 2,
-                NumeroCarte = "4974 0185 0223 2949",
-                Montant = 2000.00m,
-                TypeOperation = "Virement",
-                DateOperation = new DateTime(2024, 2, 15),
-                Devise = "USD"
-            },
-            new TransactionBancaire
-            {
-                Id = 3,
-                NumeroCarte = "4974 0185 0223 5200",
-                Montant = 500.50m,
-                TypeOperation = "Paiement",
-                DateOperation = new DateTime(2024, 1, 10),
-                Devise = "EUR"
-            },
-            new TransactionBancaire
-            {
-                Id = 4,
-                NumeroCarte = "4974 0185 0223 1783",
-                Montant = 1200.00m,
-                TypeOperation = "Dépôt",
-                DateOperation = new DateTime(2024, 3, 5),
-                Devise = "GBP"
-            },
-            new TransactionBancaire
-            {
-                Id = 5,
-                NumeroCarte = "4974 0185 0223 0002",
-                Montant = 50.00m,
-                TypeOperation = "Retrait",
-                DateOperation = new DateTime(2024, 2, 28),
-                Devise = "EUR"
-            },
-            new TransactionBancaire
-            {
-                Id = 6,
-                NumeroCarte = "4974 0185 0223 0102",
-                Montant = 300.00m,
-                TypeOperation = "Paiement",
-                DateOperation = new DateTime(2024, 3, 7),
-                Devise = "USD"
-            }
-        );
+        //modelBuilder.Entity<TransactionBancaire>().HasData(
+        //    new TransactionBancaire
+        //    {
+        //        Id = 1,
+        //        NumeroCarte = "4974 0185 0223 4832",
+        //        Montant = 150.75m,
+        //        TypeOperation = "Retrait",
+        //        DateOperation = new DateTime(2024, 3, 1),
+        //        Devise = "EUR"
+        //    },
+        //    new TransactionBancaire
+        //    {
+        //        Id = 2,
+        //        NumeroCarte = "4974 0185 0223 2949",
+        //        Montant = 2000.00m,
+        //        TypeOperation = "Virement",
+        //        DateOperation = new DateTime(2024, 2, 15),
+        //        Devise = "USD"
+        //    },
+        //    new TransactionBancaire
+        //    {
+        //        Id = 3,
+        //        NumeroCarte = "4974 0185 0223 5200",
+        //        Montant = 500.50m,
+        //        TypeOperation = "Paiement",
+        //        DateOperation = new DateTime(2024, 1, 10),
+        //        Devise = "EUR"
+        //    },
+        //    new TransactionBancaire
+        //    {
+        //        Id = 4,
+        //        NumeroCarte = "4974 0185 0223 1783",
+        //        Montant = 1200.00m,
+        //        TypeOperation = "Dépôt",
+        //        DateOperation = new DateTime(2024, 3, 5),
+        //        Devise = "GBP"
+        //    },
+        //    new TransactionBancaire
+        //    {
+        //        Id = 5,
+        //        NumeroCarte = "4974 0185 0223 0002",
+        //        Montant = 50.00m,
+        //        TypeOperation = "Retrait",
+        //        DateOperation = new DateTime(2024, 2, 28),
+        //        Devise = "EUR"
+        //    },
+        //    new TransactionBancaire
+        //    {
+        //        Id = 6,
+        //        NumeroCarte = "4974 0185 0223 0102",
+        //        Montant = 300.00m,
+        //        TypeOperation = "Paiement",
+        //        DateOperation = new DateTime(2024, 3, 7),
+        //        Devise = "USD"
+        //    }
+        //);
         #endregion
 
         #region Admin

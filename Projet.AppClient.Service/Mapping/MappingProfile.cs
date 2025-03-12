@@ -18,5 +18,6 @@ class MappingProfile : Profile
         CreateMap<Adresse, AdresseDto>().ReverseMap();
         CreateMap<AdresseParticulier, AdresseParticulierDto>().ReverseMap();
         CreateMap<AdresseProfessionnel, AdresseProfessionnelDto>().ReverseMap();
+        CreateMap<Admin, AdminDto>().ReverseMap();
     }
 }

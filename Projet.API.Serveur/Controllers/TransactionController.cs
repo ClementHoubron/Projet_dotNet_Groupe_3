@@ -41,8 +41,19 @@ public class TransactionController : Controller
               new TransactionDto { NumeroCarte = "4974018502236394", Montant = 481, TypeOperation = "Retrait DAB", DateOperation = new DateTime(2018, 12, 1, 6, 32, 3), Devise = "AUD" },
               new TransactionDto { NumeroCarte = "4974018502231264", Montant = 129, TypeOperation = "Facture CB", DateOperation = new DateTime(2018, 9, 15, 1, 57, 20), Devise = "JPY" },
               new TransactionDto { NumeroCarte = "4974018502234012", Montant = 666, TypeOperation = "Facture CB", DateOperation = new DateTime(2023, 9, 15, 1, 57, 20), Devise = "JPY" },
-              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 999, TypeOperation = "Facture CB", DateOperation = new DateTime(2013, 9, 15, 1, 57, 20), Devise = "JPY" }
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 999, TypeOperation = "Facture CB", DateOperation = new DateTime(2013, 9, 15, 1, 57, 20), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 100, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(8).AddMinutes(15), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 250, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(9).AddMinutes(30), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 180, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(10).AddMinutes(45), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 320, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(11).AddMinutes(10), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 410, TypeOperation = "Error", DateOperation = DateTime.Today.AddHours(12).AddMinutes(5), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 560, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(13).AddMinutes(20), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 230, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(14).AddMinutes(35), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234038", Montant = 780, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(15).AddMinutes(50), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 620, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(16).AddMinutes(25), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234025", Montant = 999, TypeOperation = "Facture CB", DateOperation = DateTime.Today.AddHours(17).AddMinutes(40), Devise = "JPY" }
         };
+
 
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
         string directoryPath = "GeneratedFiles";
@@ -119,8 +130,9 @@ public class TransactionController : Controller
             transactionDtos.Add(transactionDto);
         }
 
+        string timestamp = DateTime.Now.ToString("yyyyMMdd");
         string directoryPath = "GeneratedFiles";
-        string fileName = $"transactions_validated.json";
+        string fileName = $"transactions_validated_{timestamp}.json";
         string filePath = Path.Combine(directoryPath, fileName);
 
         if (!Directory.Exists(directoryPath))

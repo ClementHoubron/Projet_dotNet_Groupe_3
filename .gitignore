@@ -368,3 +368,6 @@ FodyWeavers.xsd
 /Projet.AppClient.Data/Migrations
 /Projet.Serveur.Data/Migrations
 /Projet.API.Serveur/GeneratedFiles
+
+# Fichier XML
+*.xml

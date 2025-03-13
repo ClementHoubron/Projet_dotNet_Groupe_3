@@ -101,8 +101,7 @@ public class TransactionController : Controller
             "EUR",
             "CHF",
             "AUD",
-            "CAD",
-            "ERR"
+            "CAD"
         };
 
         int annee = DateTime.Now.Year;
@@ -116,8 +115,7 @@ public class TransactionController : Controller
         // Usage de seed pour la répétabilité
         var rand = new Random(42);
 
-        // 50 transactions min, 500 max pour environs 10 par heures en moyennne
-        int nbTransaction = rand.Next(450) + 50;
+        int nbTransaction = rand.Next(30) + 10;
 
         var transactions = new List<TransactionDto>();
 
@@ -141,7 +139,7 @@ public class TransactionController : Controller
                 });
         }
 
-        string timestamp = new DateTime(annee, mois, jour, heure, 0, 0).ToString("yyyyMMdd_HH");
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
         string directoryPath = "GeneratedFiles";
         string fileName = $"transactions_generated_{timestamp}.json";
         string filePath = Path.Combine(directoryPath, fileName);

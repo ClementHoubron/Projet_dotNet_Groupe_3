@@ -22,7 +22,7 @@ public class TransactionBackgroundService : BackgroundService
 
             try
             {
-                await CallApiEndpointAsync("generate-file-transaction", "Génération du fichier de transactions", true);
+                await CallApiEndpointAsync("generate-random-file-transaction", "Génération du fichier de transactions", true);
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
                 await CallApiEndpointAsync("read-file-transactions", "Lecture et enregistrement des transactions", true);
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);

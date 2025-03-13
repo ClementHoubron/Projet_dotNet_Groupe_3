@@ -19,7 +19,7 @@ public class TransactionController : Controller
     public async Task<IActionResult> GenerateFileTransaction()
     {
         var transactions = new List<TransactionDto>
-            {
+        {
               new TransactionDto { NumeroCarte = "4974018502234567", Montant = 340, TypeOperation = "Retrait DAB", DateOperation = new DateTime(2018, 5, 8, 12, 23, 27), Devise = "GBP" },
               new TransactionDto { NumeroCarte = "4974018502238951", Montant = 219, TypeOperation = "Facture CB", DateOperation = new DateTime(2020, 6, 12, 16, 11, 54), Devise = "CAD" },
               new TransactionDto { NumeroCarte = "4974018502233824", Montant = 61, TypeOperation = "Depot Guichet", DateOperation = new DateTime(2020, 4, 20, 13, 26, 25), Devise = "JPY" },
@@ -39,22 +39,59 @@ public class TransactionController : Controller
               new TransactionDto { NumeroCarte = "4974018502234530", Montant = 444, TypeOperation = "Retrait DAB", DateOperation = new DateTime(2019, 8, 24, 10, 14, 22), Devise = "EUR" },
               new TransactionDto { NumeroCarte = "4974018502237620", Montant = 281, TypeOperation = "Depot Guichet", DateOperation = new DateTime(2018, 2, 19, 7, 0, 21), Devise = "EUR" },
               new TransactionDto { NumeroCarte = "4974018502236394", Montant = 481, TypeOperation = "Retrait DAB", DateOperation = new DateTime(2018, 12, 1, 6, 32, 3), Devise = "AUD" },
-              new TransactionDto { NumeroCarte = "4974018502231264", Montant = 129, TypeOperation = "Facture CB", DateOperation = new DateTime(2018, 9, 15, 1, 57, 20), Devise = "JPY" }
-            };
+              new TransactionDto { NumeroCarte = "4974018502231264", Montant = 129, TypeOperation = "Facture CB", DateOperation = new DateTime(2018, 9, 15, 1, 57, 20), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 666, TypeOperation = "Facture CB", DateOperation = new DateTime(2023, 9, 15, 1, 57, 20), Devise = "JPY" },
+              new TransactionDto { NumeroCarte = "4974018502234012", Montant = 999, TypeOperation = "Facture CB", DateOperation = new DateTime(2013, 9, 15, 1, 57, 20), Devise = "JPY" }
+        };
+
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string directoryPath = "GeneratedFiles";
+        string fileName = $"transactions_generated_{timestamp}.json";
+        string filePath = Path.Combine(directoryPath, fileName);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
         var json = JsonSerializer.Serialize(transactions, new JsonSerializerOptions { WriteIndented = true });
-        await System.IO.File.WriteAllTextAsync("transactions_generated.json", json);
-        return Ok("Fichier de transactions généré.");
+        await System.IO.File.WriteAllTextAsync(filePath, json);
+
+        return Ok($"Fichier de transactions généré : {filePath}");
     }
 
     [HttpPost("read-file-transactions")]
     public async Task<IActionResult> ReadFileTransactions()
     {
-        var json = await System.IO.File.ReadAllTextAsync("transactions_generated.json");
+        string directoryPath = "GeneratedFiles";
+        string searchPattern = "transactions_generated_*.json";
+        string latestFile = Directory.GetFiles(directoryPath, searchPattern)
+                                     .OrderByDescending(f => f)
+                                     .FirstOrDefault();
+
+        if (latestFile == null)
+        {
+            return NotFound("Aucun fichier de transactions généré trouvé.");
+        }
+
+        var json = await System.IO.File.ReadAllTextAsync(latestFile);
         var transactions = JsonSerializer.Deserialize<List<TransactionDto>>(json);
+
         foreach (var transaction in transactions)
         {
             await _transactionService.ProcessTransaction(transaction);
         }
+
+        try
+        {
+            System.IO.File.Delete(latestFile);
+            Console.WriteLine($"[INFO] Fichier supprimé après traitement : {latestFile}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERREUR] Impossible de supprimer le fichier {latestFile} : {ex.Message}");
+        }
+
         return Ok("Transactions vérifiées et enregistrées.");
     }
 
@@ -62,7 +99,6 @@ public class TransactionController : Controller
     public async Task<IActionResult> GenerateFileVerifTransaction()
     {
         var transactions = await _transactionService.GetValidTransactionsAsync();
-
         var transactionDtos = new List<TransactionDto>();
 
         foreach (var transaction in transactions)
@@ -83,10 +119,19 @@ public class TransactionController : Controller
             transactionDtos.Add(transactionDto);
         }
 
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string directoryPath = "GeneratedFiles";
+        string fileName = $"transactions_validated_{timestamp}.json";
+        string filePath = Path.Combine(directoryPath, fileName);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
         var json = JsonSerializer.Serialize(transactionDtos, new JsonSerializerOptions { WriteIndented = true });
+        await System.IO.File.WriteAllTextAsync(filePath, json);
 
-        await System.IO.File.WriteAllTextAsync("transactions_validated.json", json);
-
-        return Ok("Fichier de transactions validés généré.");
+        return Ok($"Fichier des transactions validées généré : {filePath}");
     }
 }

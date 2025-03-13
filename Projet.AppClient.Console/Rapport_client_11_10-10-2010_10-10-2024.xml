@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Rapport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DateDebut>2010-10-10T00:00:00</DateDebut>
+  <DateFin>2024-10-10T00:00:00</DateFin>
+  <Client xsi:type="ClientParticulier">
+    <Nom>ABABOU</Nom>
+    <Email>ababou@gmail.com</Email>
+    <DateNaissance>1970-10-10T00:00:00</DateNaissance>
+    <Prenom>Teddy</Prenom>
+    <Sexe>M</Sexe>
+  </Client>
+  <CompteBancaire>
+    <DateOuverture>2010-04-22T00:00:00</DateOuverture>
+    <Solde>2000.00</Solde>
+  </CompteBancaire>
+  <Transactions>
+    <Transaction>
+      <Montant>238.00</Montant>
+      <TypeOpe>Depot Guichet</TypeOpe>
+      <DateOpe>2019-06-06T05:39:59</DateOpe>
+      <Devise>EUR</Devise>
+    </Transaction>
+  </Transactions>
+</Rapport>

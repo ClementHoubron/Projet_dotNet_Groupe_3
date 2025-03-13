@@ -58,14 +58,33 @@ namespace Projet.AppClient.Controller
             transactionView.DisplayTransactionList(transList);
         }
 
-        public async Task<int> ImportTransactionServeur()
+        public async void ImportTransactionServeur()
         {
-            string pathJson = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..\Projet.Api.Serveur\transactions_validated.json");
-            var json = await System.IO.File.ReadAllTextAsync(pathJson);
-            var transactions = JsonSerializer.Deserialize<List<TransactionImportDto>>(json);
-            var transResult = await transactionService.ImportTransactions(transactions);
-            Console.WriteLine(transResult.ToString());
-            return transResult;
+            string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..\Projet.Api.Serveur\GeneratedFiles");
+            string searchPattern = "transactions_validated_*.json";
+            List<string> latestsFile = Directory.GetFiles(directoryPath, searchPattern)
+                                         .OrderByDescending(f => f)
+                                         .ToList();
+            foreach (string file in latestsFile)
+            {
+                var json = await System.IO.File.ReadAllTextAsync(file);
+                var transactions = JsonSerializer.Deserialize<List<TransactionImportDto>>(json);
+                var transResult = await transactionService.ImportTransactions(transactions);
+                Console.WriteLine(transResult.ToString());
+            }
+            foreach (string file in latestsFile)
+            {
+                try
+                {
+                    System.IO.File.Delete(file);
+                    Console.WriteLine($"[INFO] Fichier supprimé après traitement : {file}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[ERREUR] Impossible de supprimer le fichier {file} : {ex.Message}");
+                }
+            }
+
         }
 
         public async void ExportTransactionByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)

@@ -19,11 +19,16 @@ namespace Projet.AppClient.Data.Entities
     ///
     public class ClientProfessionnel : Client
     {
+        [Required]
         [RegularExpression("[1-9]{14}", ErrorMessage = "Siret needs to be 14 numbers.")]
         public string Siret { get; set; }
+
+        [Required]
+        [RegularExpression("SARL | SA | SAS | EURL", ErrorMessage = "Statut juridique incorrect, saisir : SARL ou SA ou SAS ou EURL")]
         public StatutJuridique StatutJuridique { get; set; }
 
-        public int AdresseSiegeId { get; set; }
+        
+        public int? AdresseSiegeId { get; set; }
         public AdresseProfessionnel AdresseSiege { get; set; }
     }
     

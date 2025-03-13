@@ -41,7 +41,7 @@ public class TransactionController : Controller
               new TransactionDto { NumeroCarte = "4974018502236394", Montant = 481, TypeOperation = "Retrait DAB", DateOperation = new DateTime(2018, 12, 1, 6, 32, 3), Devise = "AUD" },
               new TransactionDto { NumeroCarte = "4974018502231264", Montant = 129, TypeOperation = "Facture CB", DateOperation = new DateTime(2018, 9, 15, 1, 57, 20), Devise = "JPY" }
             };
-        var json = JsonSerializer.Serialize(transactions);
+        var json = JsonSerializer.Serialize(transactions, new JsonSerializerOptions { WriteIndented = true });
         await System.IO.File.WriteAllTextAsync("transactions_generated.json", json);
         return Ok("Fichier de transactions généré.");
     }

@@ -21,9 +21,13 @@ internal class Program
         {
             Console.Clear();
             Console.WriteLine(" 1 - Afficher tous les clients");
-            Console.WriteLine(" 2 - Import des transactions du serveur");
-            Console.WriteLine(" 3 - Afficher toutes les transactions");
-            Console.WriteLine(" 4 - Generer le rapport xml pour un client sur une periode");
+            Console.WriteLine(" 2 - Afficher un client particulier avec son nom et son prenom");
+            Console.WriteLine(" 3 - Afficher un client professionnel avec son nom et son siret");
+            Console.WriteLine(" 4 - Ajouter un client particulier");
+            Console.WriteLine(" 5 - Ajouter un client professionnel");
+            Console.WriteLine(" 6 - Import des transactions du serveur");
+            Console.WriteLine(" 7 - Afficher toutes les transactions");
+            Console.WriteLine(" 8 - Generer le rapport xml pour un client sur une periode");
 
             Console.WriteLine(" 0 - Quitter");
 
@@ -33,12 +37,76 @@ internal class Program
                     controllerClient.ShowClients();
                     break;
                 case "2":
+                    Console.WriteLine("Saisir le nom du client");
+                    string nom = Console.ReadLine();
+                    Console.WriteLine("Saisir le prenom du client");
+                    string prenom = Console.ReadLine();
+                    controllerClient.GetClientParticulier(nom, prenom);
+                    break;
+
+                case "3":
+                    Console.WriteLine("Saisir le nom du client");
+                    string nomPro = Console.ReadLine();
+                    Console.WriteLine("Saisir le SIRET du client");
+                    string siret = Console.ReadLine();
+                    controllerClient.GetClientProfessionnel(nomPro, siret);
+                    break;
+
+                case "4":
+                    try
+                    {
+                        var cliDto = viewClient.GetClientParticulierDetails();
+                        if (cliDto != null)
+                        {
+                            Console.WriteLine("Saisie client ok");
+
+                            controllerClient.AddClientParticulier(cliDto);
+
+                        }
+                        else
+                        {
+                            throw new Exception("Saisie client vide.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erreure saisie client : " + e.Message);
+                    }
+
+                
+                    break;
+
+                case "5":
+                    try
+                    {
+                        var cliProDto = viewClient.GetClientProfessionnelDetails();
+                        if (cliProDto != null)
+                        {
+                            Console.WriteLine("Saisie client ok");
+                       
+                                controllerClient.AddClientProfessionnel(cliProDto);
+                 
+                        }
+                        else
+                        {
+                            throw new Exception("Saise client vide.");
+                    }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erreure saisie client : " + e.Message);
+                    }
+                    break;
+                
+                case "6":
                     controllerTrans.ImportTransactionServeur();
                     break;
-                case "3":
+                
+                case "7":
                     controllerTrans.ShowTransactions();
                     break;
-                case "4":
+                
+                case "8":
                     Console.WriteLine("Veuillez entrer un numero de compte ? (format : 105003)");
                     string numCompte = Console.ReadLine();
                     Console.WriteLine("Veuillez entrer la date de debut ? (format : jj/mm/aaaa)");
@@ -60,7 +128,7 @@ internal class Program
                     }
                     controllerTrans.ExportTransactionByNumCompteForPeriod(numCompte, before, after);
                     break;
-
+                
                 case "0":
                     reponse = false;
                     break;

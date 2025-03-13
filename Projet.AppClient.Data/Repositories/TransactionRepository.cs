@@ -80,8 +80,10 @@ namespace Projet.AppClient.Data.Repositories
                                       .Where<CarteBancaire>(c => c.NumeroCarte == trans.NumeroCarte)
                                       .Include(c => c.CompteBancaire)
                                       .SingleOrDefaultAsync<CarteBancaire>();
-                    trans.CompteBancaireNumeroCompte = carteB.CompteBancaire.NumeroCompte;
-                    Console.WriteLine(trans.ToString());
+                    var compte = carteB.CompteBancaire;
+                    trans.CompteBancaireNumeroCompte = compte.NumeroCompte;
+                    compte.Solde += trans.Montant;
+                    context.Update(compte);
                 } catch (NullReferenceException e)
                 {
                     Console.WriteLine($"Erreur : {e.Message}");

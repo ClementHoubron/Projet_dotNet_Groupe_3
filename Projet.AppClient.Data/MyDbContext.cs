@@ -385,12 +385,13 @@ public class MyDbContext : DbContext
 
 
         #region CompteBancaire
+        //Exemple : 15/04/2012 15:12:20 -> 12400215 205112
 
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105067",
-                DateOuverture = new DateTime(2010, 10, 24),
+                NumeroCompte = "10010224150120",
+                DateOuverture = new DateTime(2010, 10, 24, 10, 20, 15),
                 Solde = 2000,
                 ClientId = 1
             }
@@ -398,8 +399,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105066",
-                DateOuverture = new DateTime(2015, 2, 15),
+                NumeroCompte = "15200215150112",
+                DateOuverture = new DateTime(2015, 2, 15, 10, 12, 15),
                 Solde = 500,
                 ClientId = 2
             }
@@ -407,8 +408,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105065",
-                DateOuverture = new DateTime(2012, 5, 6),
+                NumeroCompte = "12500206155124",
+                DateOuverture = new DateTime(2012, 5, 6, 15, 24, 15),
                 Solde = 4000,
                 ClientId = 3
             }
@@ -416,8 +417,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105064",
-                DateOuverture = new DateTime(2014, 2, 15),
+                NumeroCompte = "14200215428010",
+                DateOuverture = new DateTime(2014, 2, 15, 8, 10, 42),
                 Solde = 0,
                 ClientId = 4
             }
@@ -425,8 +426,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105063",
-                DateOuverture = new DateTime(2018, 12, 1),
+                NumeroCompte = "18210201384150",
+                DateOuverture = new DateTime(2018, 12, 1, 14, 50, 38),
                 Solde = -1000,
                 ClientId = 5
             }
@@ -434,8 +435,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105062",
-                DateOuverture = new DateTime(2012, 10, 3),
+                NumeroCompte = "12010203151120",
+                DateOuverture = new DateTime(2012, 10, 3, 11, 20, 15),
                 Solde = 2000,
                 ClientId = 6
             }
@@ -443,8 +444,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105061",
-                DateOuverture = new DateTime(2010, 8, 24),
+                NumeroCompte = "10800224150145",
+                DateOuverture = new DateTime(2010, 8, 24, 10, 45, 15),
                 Solde = 2000,
                 ClientId = 7
             }
@@ -452,8 +453,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105060",
-                DateOuverture = new DateTime(2014, 2, 24),
+                NumeroCompte = "14200224159030",
+                DateOuverture = new DateTime(2014, 2, 24, 9, 30, 15),
                 Solde = 2000,
                 ClientId = 8
             }
@@ -461,8 +462,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105001",
-                DateOuverture = new DateTime(2010, 10, 24),
+                NumeroCompte = "10010224155120",
+                DateOuverture = new DateTime(2010, 10, 24, 15, 20, 15),
                 Solde = 2000,
                 ClientId = 9
             }
@@ -470,8 +471,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105002",
-                DateOuverture = new DateTime(2012, 4, 17),
+                NumeroCompte = "12400217180147",
+                DateOuverture = new DateTime(2012, 4, 17, 10, 47, 18),
                 Solde = 2000,
                 ClientId = 10
             }
@@ -479,8 +480,8 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "105003",
-                DateOuverture = new DateTime(2010, 4, 22),
+                NumeroCompte = "10400222572138",
+                DateOuverture = new DateTime(2010, 4, 22, 12, 38, 57),
                 Solde = 2000,
                 ClientId = 11
             }
@@ -495,21 +496,21 @@ public class MyDbContext : DbContext
             new CarteBancaire
             {
                 NumeroCarte = "4974018502233824",
-                CompteBancaireNumeroCompte = "105001"
+                CompteBancaireNumeroCompte = "10010224155120"
             }
             );
         modelBuilder.Entity<CarteBancaire>().HasData(
             new CarteBancaire
             {
                 NumeroCarte = "4974018502235738",
-                CompteBancaireNumeroCompte = "105002"
+                CompteBancaireNumeroCompte = "12400217180147"
             }
             );
         modelBuilder.Entity<CarteBancaire>().HasData(
             new CarteBancaire
             {
                 NumeroCarte = "4974018502234012",
-                CompteBancaireNumeroCompte = "105003"
+                CompteBancaireNumeroCompte = "10400222572138"
             }
             );
         #endregion
@@ -574,15 +575,10 @@ public class MyDbContext : DbContext
         #endregion
 
         #region Admin
-        modelBuilder.Entity<Admin>().HasData(
-            new Admin
-            {
-                Login = "Admin",
-                MotDePasse = "12345"
-            }
-            );
+        var admin = new Admin { Login = "Admin"};
+        admin.SetPassword("12345");
         #endregion
-
+        modelBuilder.Entity<Admin>().HasData(admin);
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
         modelBuilder.Entity<AdresseParticulier>().ToTable<AdresseParticulier>("AdressesParticulier");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();

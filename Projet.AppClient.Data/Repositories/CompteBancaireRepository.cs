@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Projet.AppClient.Data.Repositories
 {
@@ -23,10 +24,11 @@ namespace Projet.AppClient.Data.Repositories
         public async void Add(CompteBancaire compte)
         {
             using var context = new MyDbContext();
-            string newNumCompte = GenerateNumCompte();
+            DateTime date = compte.DateOuverture;
+            string newNumCompte = GenerateNumCompte(date);
             while (await GetByNum(newNumCompte) != null)
             {
-                newNumCompte = GenerateNumCompte();
+                newNumCompte = GenerateNumCompte(date.AddHours(1));
             }
             compte.NumeroCompte = newNumCompte;
             await context.ComptesBancaires.AddAsync(compte);
@@ -66,46 +68,18 @@ namespace Projet.AppClient.Data.Repositories
 
         }
 
-        public string GenerateNumCompte()
+        public string GenerateNumCompte(DateTime date)
         {
-            string baseNumCompte = "4974 0185 0223";
-            int baseCount = 58;
-            Random rand = new Random();
-            int[] endNumCompte = new int[3];
+            //Utilisation de la date pour créer un numero de compte unique
+            //Exemple : 15/04/2012 15:12:20 -> 12400215205112
+            string day = date.Day.ToString("D2");     
+            string month = date.Month.ToString("D2"); 
+            string year = date.Year.ToString();     
+            string hour = date.Hour.ToString("D2");   
+            string minute = date.Minute.ToString("D2"); 
+            string second = date.Second.ToString("D2"); 
 
-            for (int i = 0; i < 3; i++)
-            {
-                endNumCompte[i] = rand.Next(0, 10);
-            }
-
-            int lastNum = CalculateCheckEndNums(endNumCompte);
-
-            return $"{baseNumCompte}{endNumCompte}{lastNum}";
-        }
-
-        public int CalculateCheckEndNums(int[] endNums)
-        {
-            int sum = 0;
-            bool evenNum = false;
-
-            for (int i = endNums.Length - 1; i >= 0; i--)
-            {
-                int num = endNums[i];
-
-                if (evenNum)
-                {
-                    num *= 2;
-                    if (num > 9)
-                    {
-                        num -= 9;
-                    }
-                }
-
-                sum += num;
-                evenNum = !evenNum;
-            }
-            int remaining = sum % 10;
-            return (10 - remaining) % 10;
+            return $"{year.Substring(2)}{month.Reverse()}{year.Substring(0,2).Reverse()}{day}{second}{hour.Reverse()}{minute}";
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 
 namespace Projet.AppClient.Data.Repositories
@@ -39,8 +40,18 @@ namespace Projet.AppClient.Data.Repositories
             {
                 return false;
             }
-            return admin.MotDePasse == mdp;
+            return VerifyPassword(mdp, admin.MotDePasse);
 
+        }
+
+        public bool VerifyPassword(string password, string hashedPassword)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(password);
+                byte[] hash = sha256.ComputeHash(bytes);
+                return hashedPassword == Convert.ToBase64String(hash);
+            }
         }
 
 

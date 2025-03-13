@@ -1,5 +1,7 @@
-﻿using Projet.AppClient.Controller;
+﻿using Microsoft.SqlServer.Server;
+using Projet.AppClient.Controller;
 using Projet.AppClient.View;
+using System.Globalization;
 using System.Text;
 
 internal class Program
@@ -10,15 +12,18 @@ internal class Program
         var viewClient = new ClientView();
         var controllerClient = new ClientController(viewClient);
 
+        var viewTrans = new TransactionView();
+        var controllerTrans = new TransactionController(viewTrans);
+
         bool reponse = true;
 
         while (reponse)
         {
             Console.Clear();
             Console.WriteLine(" 1 - Afficher tous les clients");
-            //Console.WriteLine(" 2 - Afficher toutes les categories");
-            //Console.WriteLine(" 3 - Rechercher une categorie via son Id");
-            //Console.WriteLine(" 4 - Afficher les produits");
+            Console.WriteLine(" 2 - Import des transactions du serveur");
+            Console.WriteLine(" 3 - Afficher toutes les transactions");
+            Console.WriteLine(" 4 - Generer le rapport xml pour un client sur une periode");
 
             Console.WriteLine(" 0 - Quitter");
 
@@ -27,20 +32,34 @@ internal class Program
                 case "1":
                     controllerClient.ShowClients();
                     break;
-                //case "2":
-                //    controllerCat.ShowCategories();
-                //    break;
-
-                //case "3":
-                //    Console.WriteLine("Saisir l'id à rechercher : ");
-                //    int id = Int32.Parse(Console.ReadLine());
-                //    controllerCat.GetCategory(id);
-                //    break;
-
-                //case "4":
-                //    controllerProd.ShowProducts();
-                //    break;
-
+                case "2":
+                    controllerTrans.ImportTransactionServeur();
+                    break;
+                case "3":
+                    controllerTrans.ShowTransactions();
+                    break;
+                case "4":
+                    Console.WriteLine("Veuillez entrer un numero de compte ? (format : 105003)");
+                    string numCompte = Console.ReadLine();
+                    Console.WriteLine("Veuillez entrer la date de debut ? (format : jj/mm/aaaa)");
+                    string format = "dd/MM/yyyy";
+                    string input = Console.ReadLine().Trim();
+                    DateTime before;
+                    while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out before))
+                    {
+                        Console.WriteLine("Erreur ! Veuillez entrer la date de debut sous le format indiqué ? (format : jj/mm/aaaa)");
+                        input = Console.ReadLine().Trim();
+                    }
+                    Console.WriteLine("Veuillez entrer la date de fin ? (format : jj/mm/aaaa)");
+                    DateTime after;
+                    input = Console.ReadLine().Trim();
+                    while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out after))
+                    {
+                        Console.WriteLine("Erreur ! Veuillez entrer la date de fin sous le format indiqué ? (format : jj/mm/aaaa)");
+                        input = Console.ReadLine().Trim();
+                    }
+                    controllerTrans.ExportTransactionByNumCompteForPeriod(numCompte, before, after);
+                    break;
 
                 case "0":
                     reponse = false;

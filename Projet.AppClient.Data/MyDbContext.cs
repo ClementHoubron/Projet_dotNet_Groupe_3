@@ -32,6 +32,18 @@ public class MyDbContext : DbContext
     {
         //modelBuilder.Entity<Client>().UseTpcMappingStrategy();
 
+        modelBuilder.Entity<TransactionBancaire>().Property(t => t.Id).ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<CarteBancaire>()
+                    .HasOne(ca => ca.CompteBancaire)
+                    .WithMany(co => co.CartesBancaire)
+                    .HasForeignKey(ca => ca.CompteBancaireNumeroCompte);
+
+        modelBuilder.Entity<TransactionBancaire>()
+                    .HasOne(t => t.CompteBancaire)
+                    .WithMany(co => co.TransactionBancaires)
+                    .HasForeignKey(t => t.CompteBancaireNumeroCompte);
+
         #region AddresseParticulier
         modelBuilder.Entity<AdresseParticulier>().HasData(
            new AdresseParticulier
@@ -376,7 +388,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 4832",
+                NumeroCompte = "105067",
                 DateOuverture = new DateTime(2010, 10, 24),
                 Solde = 2000,
                 ClientId = 1
@@ -385,7 +397,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 2949",
+                NumeroCompte = "105066",
                 DateOuverture = new DateTime(2015, 2, 15),
                 Solde = 500,
                 ClientId = 2
@@ -394,7 +406,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 5200",
+                NumeroCompte = "105065",
                 DateOuverture = new DateTime(2012, 5, 6),
                 Solde = 4000,
                 ClientId = 3
@@ -403,7 +415,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 1783",
+                NumeroCompte = "105064",
                 DateOuverture = new DateTime(2014, 2, 15),
                 Solde = 0,
                 ClientId = 4
@@ -412,7 +424,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 0002",
+                NumeroCompte = "105063",
                 DateOuverture = new DateTime(2018, 12, 1),
                 Solde = -1000,
                 ClientId = 5
@@ -421,7 +433,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 0102",
+                NumeroCompte = "105062",
                 DateOuverture = new DateTime(2012, 10, 3),
                 Solde = 2000,
                 ClientId = 6
@@ -430,7 +442,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 0202",
+                NumeroCompte = "105061",
                 DateOuverture = new DateTime(2010, 8, 24),
                 Solde = 2000,
                 ClientId = 7
@@ -439,7 +451,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 0302",
+                NumeroCompte = "105060",
                 DateOuverture = new DateTime(2014, 2, 24),
                 Solde = 2000,
                 ClientId = 8
@@ -448,7 +460,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 9902",
+                NumeroCompte = "105001",
                 DateOuverture = new DateTime(2010, 10, 24),
                 Solde = 2000,
                 ClientId = 9
@@ -457,7 +469,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 5948",
+                NumeroCompte = "105002",
                 DateOuverture = new DateTime(2012, 4, 17),
                 Solde = 2000,
                 ClientId = 10
@@ -466,7 +478,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<CompteBancaire>().HasData(
             new CompteBancaire
             {
-                NumeroCompte = "4974 0185 0223 6817",
+                NumeroCompte = "105003",
                 DateOuverture = new DateTime(2010, 4, 22),
                 Solde = 2000,
                 ClientId = 11
@@ -474,6 +486,31 @@ public class MyDbContext : DbContext
             );
 
 
+        #endregion
+
+        #region CartesBancaires
+
+        modelBuilder.Entity<CarteBancaire>().HasData(
+            new CarteBancaire
+            {
+                NumeroCarte = "4974018502233824",
+                CompteBancaireNumeroCompte = "105001"
+            }
+            );
+        modelBuilder.Entity<CarteBancaire>().HasData(
+            new CarteBancaire
+            {
+                NumeroCarte = "4974018502235738",
+                CompteBancaireNumeroCompte = "105002"
+            }
+            );
+        modelBuilder.Entity<CarteBancaire>().HasData(
+            new CarteBancaire
+            {
+                NumeroCarte = "4974018502234012",
+                CompteBancaireNumeroCompte = "105003"
+            }
+            );
         #endregion
 
         #region TransactionsBancaires

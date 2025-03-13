@@ -31,6 +31,17 @@ namespace Projet.AppClient.Service
 			var compteDto = _mapper.Map<CompteBancaireDto>(compteEntity);
 			return compteDto;
 		}
+		public async Task<CompteBancaire> GetCompteByNumForXml(string numCompte)
+		{
+			var compteEntity = await _repo.GetByNum(numCompte);
+			if (compteEntity != null)
+			{
+				return compteEntity;
+			} else
+			{
+				return null;
+			}
+        }
 		public async Task<List<CompteBancaireDto>> GetComptes()
 		{
 			var comptesEntities = await _repo.GetAll();

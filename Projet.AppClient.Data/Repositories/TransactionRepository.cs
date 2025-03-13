@@ -12,19 +12,8 @@ using System.Xml;
 
 namespace Projet.AppClient.Data.Repositories
 {
-
-
-    public interface ITransactionRepository : IRepository<TransactionBancaire>
+    public class TransactionRepository : IRepository<TransactionBancaire>
     {
-        void AjouterTransactionAvecVerification(TransactionBancaire transaction);
-        void GenererFichierTransactions();
-
-
-    }
-
-    public class TransactionRepository : IRepository<TransactionBancaire>, ITransactionRepository
-    {
-        protected readonly MyDbContext _context;
         public TransactionRepository()
         {
             InitializeDatabase();
@@ -36,42 +25,10 @@ namespace Projet.AppClient.Data.Repositories
             context.Database.EnsureCreated();
         }
 
-
-
-        public void AjouterTransactionAvecVerification(TransactionBancaire transaction)
-        {
-            if (!ValiderNumeroCarte(transaction.NumeroCarte))
-            {
-                Console.WriteLine("TODO");
-            }
-            else
-            {
-                _context.TransactionsBancaires.Add(transaction);
-            }
-            _context.SaveChanges();
-        }
-
-        private bool ValiderNumeroCarte(string numeroCarte)
-        {
-            int sum = 0;
-            bool alternate = false;
-            for (int i = numeroCarte.Length - 1; i >= 0; i--)
-            {
-                int n = int.Parse(numeroCarte[i].ToString());
-                if (alternate)
-                {
-                    n *= 2;
-                    if (n > 9) n -= 9;
-                }
-                sum += n;
-                alternate = !alternate;
-            }
-            return (sum % 10 == 0);
-        }
-
         public void GenererFichierTransactions()
         {
-            var transactionsValides = _context.TransactionsBancaires.ToList();
+            using var context = new MyDbContext();
+            var transactionsValides = context.TransactionsBancaires.ToList();
             string json = JsonConvert.SerializeObject(transactionsValides, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText("transactions_validees.json", json);
         }
@@ -79,8 +36,7 @@ namespace Projet.AppClient.Data.Repositories
         public async Task<List<TransactionBancaire>> GetAll()
         {
             using var context = new MyDbContext();
-            var transactions = await _context.TransactionsBancaires
-                                             .Include("ComptesBancaires")
+            var transactions = await context.TransactionsBancaires
                                              .ToListAsync<TransactionBancaire>();
             return transactions;
         }
@@ -88,17 +44,15 @@ namespace Projet.AppClient.Data.Repositories
         public async Task<List<TransactionBancaire>> GetAllByNumCarte(string numCarte)
         {
             using var context = new MyDbContext();
-            var transactions = await _context.TransactionsBancaires
+            var transactions = await context.TransactionsBancaires
                                              .Where<TransactionBancaire>(t => t.NumeroCarte == numCarte)
-                                             .Include("ComptesBancaires")
                                              .ToListAsync<TransactionBancaire>();
             return transactions;
         }
         public async Task<List<TransactionBancaire>> GetAllByNumCompte(string numCompte)
         {
             using var context = new MyDbContext();
-            var transactions = await _context.TransactionsBancaires
-                                             .Include("ComptesBancaires")
+            var transactions = await context.TransactionsBancaires
                                              .Where<TransactionBancaire>(t => t.CompteBancaireNumeroCompte == numCompte)
                                              .ToListAsync<TransactionBancaire>();
             return transactions;
@@ -107,11 +61,26 @@ namespace Projet.AppClient.Data.Repositories
         public async Task<List<TransactionBancaire>> GetAllByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)
         {
             using var context = new MyDbContext();
-            var transactions = await _context.TransactionsBancaires
-                                             .Include("ComptesBancaires")
+            var transactions = await context.TransactionsBancaires
+                                             .Include("CompteBancaire")
                                              .Where<TransactionBancaire>(t => t.CompteBancaireNumeroCompte == numCompte && (t.DateOperation >= before && t.DateOperation <= after))
                                              .ToListAsync<TransactionBancaire>();
             return transactions;
+        }
+
+        public async Task<int> ImportAll(List<TransactionBancaire> transactions)
+        {
+            using var context = new MyDbContext();
+            foreach (var trans in transactions)
+            {
+                var carteB = await context.CartesBancaires
+                                      .Where<CarteBancaire>(c => c.NumeroCarte == trans.NumeroCarte)
+                                      .Include(c => c.CompteBancaire)
+                                      .SingleOrDefaultAsync<CarteBancaire>();
+                trans.CompteBancaireNumeroCompte = carteB.CompteBancaire.NumeroCompte;
+            }
+            await context.AddRangeAsync(transactions);
+            return await context.SaveChangesAsync();
         }
 
     }

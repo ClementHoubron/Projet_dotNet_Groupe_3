@@ -1,22 +1,27 @@
-﻿using Projet.AppClient.Service;
+﻿using Projet.AppClient.Data.Entities;
+using Projet.AppClient.Service;
 using Projet.AppClient.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Projet.AppClient.Controller
 {
     public class TransactionController
     {
         private TransactionBancaireService transactionService;
+        private CompteBancaireService compteBancaireService;
         private TransactionView transactionView;
 
         public TransactionController(TransactionView view)
         {
             transactionView = view;
             transactionService = new TransactionBancaireService();
+            compteBancaireService = new CompteBancaireService();
         }
 
         public async void ShowTransactions()
@@ -53,16 +58,45 @@ namespace Projet.AppClient.Controller
             transactionView.DisplayTransactionList(transList);
         }
 
-        public async void ShowTransactionsByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)
+        public async Task<int> ImportTransactionServeur()
+        {
+            string pathJson = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..\Projet.Api.Serveur\transactions_validated.json");
+            var json = await System.IO.File.ReadAllTextAsync(pathJson);
+            var transactions = JsonSerializer.Deserialize<List<TransactionImportDto>>(json);
+            var transResult = await transactionService.ImportTransactions(transactions);
+            Console.WriteLine(transResult.ToString());
+            return transResult;
+        }
+
+        public async void ExportTransactionByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)
         {
             var transList = await transactionService.GetAllTransactionsByNumCompteForPeriod(numCompte, before, after);
-            if (transList.Count == 0)
+            if (transList.Count() == 0)
             {
-                Console.WriteLine("Aucune Transaction !");
-                return;
-            }
+                Console.WriteLine($"Pas de transaction pour le numero de compte {numCompte} entre {before:d(fr-Fr)} et {after:d(fr-Fr)}");
+            } else
+            {
+                CompteBancaire compte = await compteBancaireService.GetCompteByNumForXml(transList.First().CompteBancaireNumeroCompte);
+                Client client = compte.Client;
+                Rapport rapport = new Rapport
+                {
+                    Client = client,
+                    Debut = before,
+                    Fin = after,
+                    CompteBancaire = compte,
+                    Transactions = transList.ToList<TransactionBancaire>()
+                };
+                var serializer = new XmlSerializer(typeof(Rapport), new Type[] {typeof(ClientParticulier), typeof(ClientProfessionnel)});
 
-            transactionView.DisplayTransactionList(transList);
+                using (var writer = new StringWriter())
+                {
+                    serializer.Serialize(writer, rapport);
+                    string xml = writer.ToString();
+                    Console.WriteLine(xml);
+                    Console.WriteLine(Path.Combine(Directory.GetCurrentDirectory(), @$"Rapport_client_{client.Id}_{before:dd-MM-yyyy}_{after:dd-MM-yyyy}.xml"));
+                    File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), @$"../../../Rapport_client_{client.Id}_{before:dd-MM-yyyy}_{after:dd-MM-yyyy}.xml"), xml);
+                }
+            }
         }
     }
 }

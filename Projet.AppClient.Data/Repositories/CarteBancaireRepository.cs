@@ -38,7 +38,7 @@ namespace Projet.AppClient.Data.Repositories
         {
             using var context = new MyDbContext();
             var cartes = await context.CartesBancaires
-                                      .Include("CartesBancaires")
+                                      .Include("ComptesBancaires")
                                       .ToListAsync<CarteBancaire>();
             return cartes;
         }
@@ -48,7 +48,7 @@ namespace Projet.AppClient.Data.Repositories
             using var context = new MyDbContext();
             var cartes = await context.CartesBancaires
                                       .Where<CarteBancaire>(c => c.CompteBancaire.NumeroCompte == numCompte)
-                                      .Include("CartesBancaires")
+                                      .Include("ComptesBancaires")
                                       .ToListAsync<CarteBancaire>();
             return cartes;
         }
@@ -57,7 +57,7 @@ namespace Projet.AppClient.Data.Repositories
             using var context = new MyDbContext();
             var cartes = await context.CartesBancaires
                                       .Where<CarteBancaire>(c => c.NumeroCarte == numCarte)
-                                      .Include("CartesBancaires")
+                                      .Include("ComptesBancaires")
                                       .SingleOrDefaultAsync<CarteBancaire>();
             return cartes;
         }
@@ -65,7 +65,7 @@ namespace Projet.AppClient.Data.Repositories
 
         public string GenerateNumCarte()
         {
-            string baseNumCarte = "4974 0185 0223";
+            string baseNumCarte = "497401850223";
             int baseCount = 58;
             Random rand = new Random();
             int[] endNumCarte = new int[3];

@@ -8,9 +8,9 @@ namespace Projet.AppClient.Service
 {
     public class TransactionExportService : BackgroundService
     {
-        private readonly ITransactionRepository _transactionRepository;
+        private readonly TransactionRepository _transactionRepository;
 
-        public TransactionExportService(ITransactionRepository transactionRepository)
+        public TransactionExportService(TransactionRepository transactionRepository)
         {
             _transactionRepository = transactionRepository;
         }

@@ -40,24 +40,11 @@ namespace Projet.AppClient.Service
             var transactionDtos = transactionEntities.Select(trans => _mapper.Map<TransactionBancaireDto>(trans)).ToList<TransactionBancaireDto>();
             return transactionDtos;
         }
-        public async Task<List<TransactionBancaireDto>> GetAllTransactionsByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)
+        public async Task<List<TransactionBancaire>> GetAllTransactionsByNumCompteForPeriod(string numCompte, DateTime before, DateTime after)
         {
             var transactionEntities = await _transactionRepository.GetAllByNumCompteForPeriod(numCompte, before, after);
-            var transactionDtos = transactionEntities.Select(trans => _mapper.Map<TransactionBancaireDto>(trans)).ToList<TransactionBancaireDto>();
-            return transactionDtos;
-        }
-
-        public async Task AjouterTransaction(TransactionBancaireDto transactionDto)
-        {
-            var transaction = new TransactionBancaire
-            {
-                NumeroCarte = transactionDto.NumeroCarte,
-                Montant = transactionDto.Montant,
-                TypeOperation = transactionDto.TypeOperation,
-                DateOperation = transactionDto.DateOperation,
-                Devise = transactionDto.Devise,
-            };
-            _transactionRepository.AjouterTransactionAvecVerification(transaction);
+            var transactions = transactionEntities.Select(trans => _mapper.Map<TransactionBancaire>(trans)).ToList<TransactionBancaire>();
+            return transactions;
         }
 
         public async Task GenererFichierTransactions()
@@ -66,6 +53,12 @@ namespace Projet.AppClient.Service
 
             string json = JsonConvert.SerializeObject(transactionsValides, Formatting.Indented);
             await File.WriteAllTextAsync("transactions_validees.json", json);
+        }
+
+        public async Task<int> ImportTransactions(List<TransactionImportDto> transactions)
+        {
+            var transToimportEntities = transactions.Select(trans => _mapper.Map<TransactionBancaire>(trans)).ToList();
+            return await _transactionRepository.ImportAll(transToimportEntities);
         }
     }
 }

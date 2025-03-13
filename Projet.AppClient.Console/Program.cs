@@ -1,5 +1,7 @@
-﻿using Projet.AppClient.Controller;
+﻿using Microsoft.SqlServer.Server;
+using Projet.AppClient.Controller;
 using Projet.AppClient.View;
+using System.Globalization;
 using System.Text;
 
 internal class Program
@@ -9,6 +11,9 @@ internal class Program
 
         var viewClient = new ClientView();
         var controllerClient = new ClientController(viewClient);
+
+        var viewTrans = new TransactionView();
+        var controllerTrans = new TransactionController(viewTrans);
 
         bool reponse = true;
 
@@ -20,6 +25,9 @@ internal class Program
             Console.WriteLine(" 3 - Afficher un client professionnel avec son nom et son siret");
             Console.WriteLine(" 4 - Ajouter un client particulier");
             Console.WriteLine(" 5 - Ajouter un client professionnel");
+            Console.WriteLine(" 6 - Import des transactions du serveur");
+            Console.WriteLine(" 7 - Afficher toutes les transactions");
+            Console.WriteLine(" 8 - Generer le rapport xml pour un client sur une periode");
 
             Console.WriteLine(" 0 - Quitter");
 
@@ -89,7 +97,38 @@ internal class Program
                         Console.WriteLine("Erreure saisie client : " + e.Message);
                     }
                     break;
-
+                
+                case "6":
+                    controllerTrans.ImportTransactionServeur();
+                    break;
+                
+                case "7":
+                    controllerTrans.ShowTransactions();
+                    break;
+                
+                case "8":
+                    Console.WriteLine("Veuillez entrer un numero de compte ? (format : 105003)");
+                    string numCompte = Console.ReadLine();
+                    Console.WriteLine("Veuillez entrer la date de debut ? (format : jj/mm/aaaa)");
+                    string format = "dd/MM/yyyy";
+                    string input = Console.ReadLine().Trim();
+                    DateTime before;
+                    while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out before))
+                    {
+                        Console.WriteLine("Erreur ! Veuillez entrer la date de debut sous le format indiqué ? (format : jj/mm/aaaa)");
+                        input = Console.ReadLine().Trim();
+                    }
+                    Console.WriteLine("Veuillez entrer la date de fin ? (format : jj/mm/aaaa)");
+                    DateTime after;
+                    input = Console.ReadLine().Trim();
+                    while (!DateTime.TryParseExact(input, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out after))
+                    {
+                        Console.WriteLine("Erreur ! Veuillez entrer la date de fin sous le format indiqué ? (format : jj/mm/aaaa)");
+                        input = Console.ReadLine().Trim();
+                    }
+                    controllerTrans.ExportTransactionByNumCompteForPeriod(numCompte, before, after);
+                    break;
+                
                 case "0":
                     reponse = false;
                     break;

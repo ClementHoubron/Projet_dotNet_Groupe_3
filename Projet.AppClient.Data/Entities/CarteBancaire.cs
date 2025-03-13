@@ -16,5 +16,10 @@ namespace Projet.AppClient.Data.Entities
         public string CompteBancaireNumeroCompte { get; set; }
 
         public CompteBancaire CompteBancaire { get; set; }
+
+        public override string ToString()
+        {
+            return $"Numero Carte : {NumeroCarte} Compte Bancaire : {CompteBancaire.NumeroCompte}";
+        }
     }
 }

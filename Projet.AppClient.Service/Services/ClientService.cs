@@ -42,6 +42,32 @@ namespace Projet.AppClient.Service
             return clientsDto;
         }
 
+        public async Task<int> AddClientParticulier(ClientParticulierDto cliDto)
+        {
+            var cliEntity = _mapper.Map<ClientParticulier>(cliDto);
+            var cliSaved = await _repo.AddClientParticulier(cliEntity);
+            return cliSaved;
+        }
 
+        public async Task<int> AddClientProfessionnel(ClientProfessionnelDto cliDto)
+        {
+            var cliEntity = _mapper.Map<ClientProfessionnel>(cliDto);
+            var cliSaved = await _repo.AddClientProfessionnel(cliEntity);
+            return cliSaved;
+        }
+
+        public async Task<ClientParticulierDto> GetByNomPrenom(string nom, string prenom)
+        {
+            var cliEntity = await _repo.GetByNomPrenom(nom, prenom);
+            var cliDto = _mapper.Map<ClientParticulierDto>(cliEntity);
+            return cliDto;
+        }
+
+        public async Task<ClientProfessionnelDto> GetByNomSiret(string nom, string siret)
+        {
+            var cliEntity = await _repo.GetByNomSiret(nom, siret);
+            var cliDto = _mapper.Map<ClientProfessionnelDto>(cliEntity);
+            return cliDto;
+        }
     }
 }

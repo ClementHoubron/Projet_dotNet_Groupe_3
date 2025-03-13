@@ -16,10 +16,15 @@ namespace Projet.AppClient.Data.Entities
     /// </summary>
     public class ClientParticulier : Client
     {
+        [Required]
         public DateTime DateNaissance { get; set; }
 
         [StringLength(50, MinimumLength = 1)]
+        [Required]
         public string Prenom { get; set; }
+
+        [Required]
+        [RegularExpression("M|F", ErrorMessage = "Saisir M ou F pour le sexe.")]
         public Sexe Sexe { get; set; }
     }
 

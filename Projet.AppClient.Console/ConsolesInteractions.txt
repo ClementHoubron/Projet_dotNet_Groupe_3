@@ -1,0 +1,72 @@
+﻿login:
+
+1
+Admin
+12345
+
+ajout client particulier ok :
+1
+Admin
+12345
+4
+ROGER
+DENIS
+13, rue du foin
+Bat. D
+PARIS
+90000
+denis@gmail.com
+M
+07/07/1977
+
+ajout client professionnel ok : 
+1
+Admin
+12345
+5
+TOTOJOUJOUX 
+34, rue du Commerce
+Batiment 3
+Strasbourg
+67000
+info@ttjj.com
+43543295641122
+SA
+34, rue du Commerce
+Batiment 3
+Strasbourg
+67000
+
+ajout client particulier nok  (Pas de nom):
+1
+Admin
+12345
+4
+
+DENISE
+13, rue du foin
+Bat. D
+PARIS
+90000
+denise@gmail.com
+F
+09/09/1979
+
+
+ajout client professionnel nok (Pas de VIlle): 
+1
+Admin
+12345
+5
+TOTOCAILLOUX 
+35, rue du Commerce
+Batiment 2
+
+67000
+info@ttcll.com
+43543295641123
+SAS
+35, rue du Commerce
+Batiment 4
+Strasbourg
+67000

@@ -119,9 +119,8 @@ public class TransactionController : Controller
             transactionDtos.Add(transactionDto);
         }
 
-        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
         string directoryPath = "GeneratedFiles";
-        string fileName = $"transactions_validated_{timestamp}.json";
+        string fileName = $"transactions_validated.json";
         string filePath = Path.Combine(directoryPath, fileName);
 
         if (!Directory.Exists(directoryPath))

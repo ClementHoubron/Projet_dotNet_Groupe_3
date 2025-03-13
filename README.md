@@ -77,10 +77,8 @@ Avant d'installer l'application, assurez-vous d'avoir :
 - Gestion des erreurs et logs pour tracer les anomalies.
 
 ## Améliorations Futures
-- Chiffrement des données sensibles.
 - Ajout d'une interface graphique (WPF ou Blazor).
 - Intégration d'un système de virement inter-comptes.
-- Déploiement en conteneur Docker avec CI/CD.
 
 ## Contribution
 Les contributions sont les bienvenues ! Veuillez suivre ces étapes :

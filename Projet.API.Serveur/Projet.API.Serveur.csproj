@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Projet.Serveur.Service\Projet.Serveur.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="GeneratedFiles\" />
+  </ItemGroup>
+
 </Project>

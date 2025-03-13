@@ -367,3 +367,4 @@ FodyWeavers.xsd
 /Projet.Data/Migrations/MyDbContextModelSnapshot.cs
 /Projet.AppClient.Data/Migrations
 /Projet.Serveur.Data/Migrations
+/Projet.API.Serveur/GeneratedFiles

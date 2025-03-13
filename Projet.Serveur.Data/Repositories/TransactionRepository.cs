@@ -31,12 +31,17 @@ namespace Projet.Serveur.Data.Repositories
             _context.SaveChanges();
         }
 
+
         public IEnumerable<TransactionBancaire> GetValidTransactions()
         {
             using var _context = new MyDbContext();
-            return _context.TransactionBancaire.Where(t => t.EstValide).ToList();
-        }
+            DateTime today = DateTime.Today;
+            DateTime tomorrow = today.AddDays(1);
 
+            return _context.TransactionBancaire
+                .Where(t => t.EstValide && t.DateOperation >= today && t.DateOperation < tomorrow)
+                .ToList();
+        }
 
         public IEnumerable<TransactionBancaire> GetAnomalies()
         {

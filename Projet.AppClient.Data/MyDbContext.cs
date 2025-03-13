@@ -574,15 +574,10 @@ public class MyDbContext : DbContext
         #endregion
 
         #region Admin
-        modelBuilder.Entity<Admin>().HasData(
-            new Admin
-            {
-                Login = "Admin",
-                MotDePasse = "12345"
-            }
-            );
+        var admin = new Admin { Login = "Admin"};
+        admin.SetPassword("12345");
         #endregion
-
+        modelBuilder.Entity<Admin>().HasData(admin);
         modelBuilder.Entity<CompteBancaire>().ToTable<CompteBancaire>("ComptesBancaires");
         modelBuilder.Entity<AdresseParticulier>().ToTable<AdresseParticulier>("AdressesParticulier");
         modelBuilder.Entity<Client>().UseTpcMappingStrategy();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Projet.Serveur.Service.Services;
+using System.Reflection.Metadata;
 using System.Text.Json;
 
 [ApiController]
@@ -45,6 +46,91 @@ public class TransactionController : Controller
         };
 
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string directoryPath = "GeneratedFiles";
+        string fileName = $"transactions_generated_{timestamp}.json";
+        string filePath = Path.Combine(directoryPath, fileName);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        var json = JsonSerializer.Serialize(transactions, new JsonSerializerOptions { WriteIndented = true });
+        await System.IO.File.WriteAllTextAsync(filePath, json);
+
+        return Ok($"Fichier de transactions généré : {filePath}");
+    }
+
+    [HttpPost("generate-random-file-transaction")]
+    public async Task<IActionResult> GenerateRandomFileTransaction(int heure=-1)
+    {
+        string[] numerosCartes =
+        {
+            "4974018502234567",
+            "4974018502239463",
+            "4974018502237456",
+            "4974018502234012",
+            "4974018502235738",
+            "4974018502233824"
+        };
+
+        string[] typeOperations =
+        {
+            "Retrait DAB",
+            "Facture CB",
+            "Depot Guichet",
+            "RetERREUR",
+        };
+
+        string[] Devises =
+        {
+            "GBP",
+            "CAD",
+            "JPY",
+            "EUR",
+            "CHF",
+            "AUD",
+            "CAD",
+            "ERR"
+        };
+
+        int annee = DateTime.Now.Year;
+        int mois = DateTime.Now.Month;
+        int jour = DateTime.Now.Day;
+        if (heure == -1)
+        {
+            heure = DateTime.Now.Hour;
+        }
+    
+        // Usage de seed pour la répétabilité
+        var rand = new Random(42);
+
+        // 50 transactions min, 500 max pour environs 10 par heures en moyennne
+        int nbTransaction = rand.Next(450) + 50;
+
+        var transactions = new List<TransactionDto>();
+
+        for (int i = 0; i < nbTransaction; i++)
+        {
+            decimal montant = rand.Next(10000) / 100.00m;
+            string genDevise = Devises.ElementAt(rand.Next(Devises.Length));
+
+            //Si le montant est en yen, on multplilie par 100 pour avoir quelque chose de cohérentn
+            if (genDevise == "JPY")
+            {
+                montant *= 200;
+            }
+            transactions.Add(
+                new TransactionDto {
+                    NumeroCarte = numerosCartes.ElementAt(rand.Next(numerosCartes.Length)),
+                    Montant = montant,
+                    TypeOperation = typeOperations.ElementAt(rand.Next(typeOperations.Length)),
+                    DateOperation = new DateTime(annee, mois, jour, heure, rand.Next(60), rand.Next(60)),
+                    Devise = genDevise
+                });
+        }
+
+        string timestamp = new DateTime(annee, mois, jour, heure, 0, 0).ToString("yyyyMMdd_HH");
         string directoryPath = "GeneratedFiles";
         string fileName = $"transactions_generated_{timestamp}.json";
         string filePath = Path.Combine(directoryPath, fileName);

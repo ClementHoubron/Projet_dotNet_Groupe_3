@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,17 +19,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Projet.Serveur.Data\Projet.Serveur.Data.csproj" />
-    <ProjectReference Include="..\Projet.Serveur.Service\Projet.Serveur.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GeneratedFiles\" />
-    <Folder Include="GeneratedFiles\" />
   </ItemGroup>
 
 </Project>

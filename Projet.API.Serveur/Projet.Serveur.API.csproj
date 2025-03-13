@@ -23,13 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Projet.Serveur.Data\Projet.Serveur.Data.csproj" />
-    <ProjectReference Include="..\Projet.Serveur.Service\Projet.Serveur.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GeneratedFiles\" />
-    <Folder Include="GeneratedFiles\" />
+    <ProjectReference Include="..\Projet.Service\Projet.Service.csproj" />
   </ItemGroup>
 
 </Project>

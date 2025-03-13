@@ -160,6 +160,8 @@ nCrunchTemp_*
 *.mm.*
 AutoTest.Net/
 
+Projet.Data/Migrations
+
 # Web workbench (sass)
 .sass-cache/
 
@@ -361,3 +363,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Projet.Data/Migrations/20250311084338_init-db.Designer.cs
+/Projet.Data/Migrations/MyDbContextModelSnapshot.cs
+/Projet.AppClient.Data/Migrations
+/Projet.Serveur.Data/Migrations
+/Projet.API.Serveur/GeneratedFiles
+
+# Fichier XML
+*.xml

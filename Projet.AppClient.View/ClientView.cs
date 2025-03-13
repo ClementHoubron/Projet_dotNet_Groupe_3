@@ -79,7 +79,7 @@ namespace Projet.AppClient.View
 
             };
 
-            if (!Validate(cliToAdd))
+            if (!Validate(cliToAdd) | !ValidateAdresseParticulier(cliToAdd))
             {
                 throw new ArgumentException("Saisie client professionnel incorrecte.");
             }
@@ -151,7 +151,7 @@ namespace Projet.AppClient.View
 
             };
 
-            if (!Validate(cliToAdd))
+            if (!Validate(cliToAdd) | !ValidateAdresseProfessionnel(cliToAdd))
             {
                 throw new ArgumentException("Saisie client professionnel incorrecte.");
             }
@@ -172,10 +172,57 @@ namespace Projet.AppClient.View
                 }
 
             }
-
             return isValid;
+        }
+
+        private bool ValidateAdresseProfessionnel(ClientProfessionnelDto cli)
+        {
+            var context = new ValidationContext(cli.AdresseSiege);
+            var results = new List<ValidationResult>();
+
+            bool isValid = Validator.TryValidateObject(cli.AdresseSiege, context, results, true);
+
+            if (!isValid)
+            {
+                foreach (var error in results)
+                {
+                    Console.WriteLine($"\tErreur : {error.ErrorMessage}");
+                }
+
+            }
 
 
+            context = new ValidationContext(cli.AdressePostale);
+            results = new List<ValidationResult>();
+            isValid &= Validator.TryValidateObject(cli.AdressePostale, context, results, true);
+
+            if (!isValid)
+            {
+                foreach (var error in results)
+                {
+                    Console.WriteLine($"\tErreur : {error.ErrorMessage}");
+                }
+
+            }
+            return isValid;
+        }
+
+        private bool ValidateAdresseParticulier(ClientParticulierDto cli)
+        {
+            var context = new ValidationContext(cli.AdressePostale);
+            var results = new List<ValidationResult>();
+
+            bool isValid = Validator.TryValidateObject(cli.AdressePostale, context, results, true);
+
+            if (!isValid)
+            {
+                foreach (var error in results)
+                {
+                    Console.WriteLine($"\tErreur : {error.ErrorMessage}");
+                }
+
+            }
+            return isValid;
         }
     }
 }

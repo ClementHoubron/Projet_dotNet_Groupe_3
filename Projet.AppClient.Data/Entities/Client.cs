@@ -19,11 +19,15 @@ namespace Projet.AppClient.Data.Entities
         [StringLength(50, MinimumLength = 1)]
         public string Nom { get; set; }
 
-        public int AdressePostaleId { get; set; }
+
+        public int? AdressePostaleId { get; set; }
+        
+        [Required]
         public AdresseParticulier AdressePostale { get; set; }
 
         [RegularExpression(".*@.*", ErrorMessage = "Email needs to contain an @.")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
+
         public ICollection<CompteBancaire>? ComptesBancaires { get; set; }
     }
 }

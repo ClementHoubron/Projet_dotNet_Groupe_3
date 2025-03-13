@@ -12,9 +12,13 @@ namespace Projet.AppClient.Data.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Libelle { get; set; }
-        public string Complement { get; set; }
+
+        [Required]
+        public string Libelle { get; set; }   
+        public string? Complement { get; set; }
+        [Required]
         public string CodePostal { get; set; }
+        [Required]
         public string Ville { get; set; }
 
         public override string ToString()

@@ -19,6 +19,7 @@ internal class Program
             Console.WriteLine(" 2 - Afficher un client particulier avec son nom et son prenom");
             Console.WriteLine(" 3 - Afficher un client professionnel avec son nom et son siret");
             Console.WriteLine(" 4 - Ajouter un client particulier");
+            Console.WriteLine(" 5 - Ajouter un client professionnel");
 
             Console.WriteLine(" 0 - Quitter");
 

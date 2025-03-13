@@ -14,10 +14,13 @@ namespace Projet.AppClient.Service
         [Required(ErrorMessage="Nom requis.")]
         public string Nom { get; set; }
 
+
         public int AdressePostaleId { get; set; }
+
+        [Required(ErrorMessage="Adresse requise.")]
         public AdresseParticulier AdressePostale { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public ICollection<CompteBancaire> ComptesBancaires { get; set; }
 
         public override string ToString()

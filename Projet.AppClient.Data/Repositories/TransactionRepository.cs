@@ -71,13 +71,27 @@ namespace Projet.AppClient.Data.Repositories
         public async Task<int> ImportAll(List<TransactionBancaire> transactions)
         {
             using var context = new MyDbContext();
+            List<TransactionBancaire> transToRemove = new List<TransactionBancaire>();
             foreach (var trans in transactions)
             {
-                var carteB = await context.CartesBancaires
+                try
+                {
+                    var carteB = await context.CartesBancaires
                                       .Where<CarteBancaire>(c => c.NumeroCarte == trans.NumeroCarte)
                                       .Include(c => c.CompteBancaire)
                                       .SingleOrDefaultAsync<CarteBancaire>();
-                trans.CompteBancaireNumeroCompte = carteB.CompteBancaire.NumeroCompte;
+                    trans.CompteBancaireNumeroCompte = carteB.CompteBancaire.NumeroCompte;
+                    Console.WriteLine(trans.ToString());
+                } catch (NullReferenceException e)
+                {
+                    Console.WriteLine($"Erreur : {e.Message}");
+                    Console.WriteLine("Cette carte bancaire n'existe pas !");
+                    transToRemove.Add(trans);
+                }
+            }
+            foreach (var trans in transToRemove)
+            {
+                transactions.Remove(trans);
             }
             await context.AddRangeAsync(transactions);
             return await context.SaveChangesAsync();
